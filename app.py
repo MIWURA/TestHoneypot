@@ -1,18 +1,19 @@
 # app.py
 
-from flask import Flask, g, render_template, request, jsonify, make_response
+from flask import Flask, g, redirect, render_template, request, jsonify, make_response, url_for
 from flask_socketio import SocketIO, emit
 import sqlite3
 from urllib.parse import quote, unquote
 from flask_mysqldb import MySQL
 import secrets
 import json
-from threading import Thread
+from threading import Thread,Event
 import time
 from flask_sqlalchemy import SQLAlchemy
 from flask_paginate import Pagination
 from models import db,Mypot
 from threading import Lock
+from func import *
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = secrets.token_hex(16)
@@ -32,50 +33,9 @@ app.config['MYSQL_DB'] = 'mypot'
 
 mysql = MySQL(app)
 db.init_app(app)
-socketio = SocketIO(app)
+socketio = SocketIO(app)  
+stop_event = Event()
 
-def Get_db():
-   with app.app_context():
-        with mysql.connection.cursor() as cur:
-            cur.execute("SELECT * FROM honeypot ORDER BY id DESC")
-            data = cur.fetchall()
-
-        response_data = {
-            'data': [{
-                'type': item[1],  
-                'alert': item[2],  
-                'date': str(item[3]),
-                'time': str(item[4]), 
-                'ip_attacker': item[5],
-                'ip_server': item[6],
-                'protocol': item[7],
-                'comment': item[8],
-            } for item in data]
-        }
-
-        return response_data
-
-def Get_20db():
-    with app.app_context():
-        with mysql.connection.cursor() as cur:
-            cur.execute("SELECT * FROM honeypot ORDER BY id DESC LIMIT 20")
-            data = cur.fetchall()
-
-        response_data = {
-            'data': [{
-                'type': item[1],  
-                'alert': item[2],  
-                'date': str(item[3]),
-                'time': str(item[4]), 
-                'ip_attacker': item[5],
-                'ip_server': item[6],
-                'protocol': item[7],
-                'comment': item[8],
-            } for item in data]
-        }
-
-        return response_data
-    
 @socketio.on('connect')
 def connect():
     global thread
@@ -83,21 +43,23 @@ def connect():
 
     global thread
     with thread_lock:
-        print("Current thread:", thread)
-        thread = socketio.start_background_task(background_thread)
+        if thread is None:
+            print("Current thread Start:", thread)
+            thread = socketio.start_background_task(background_thread)
 
-def background_thread():
+
+@socketio.on('disconnect')
+def disconnect():
+    print('Client disconnected',  request.sid)
+
+def background_thread(sort_by=None, intable_value=None):
     print("Query Database Limit 20")
     with app.app_context():
-        while True:
-            response_data = Get_20db()
+        while not stop_event.is_set():
+            response_data = Get_SortDB(sort_by=sort_by,intable_value=intable_value)
             #print('----------------------------------Emit data-------------------------------------')
-            
             socketio.emit('updateResponse_data', response_data, namespace='')
-
             socketio.sleep(1)
-
-
 
 @app.route('/')
 def home():
@@ -122,6 +84,28 @@ def cowrie_index():
 @app.route('/Monitor')
 def Monitor():
     return render_template('Monitor.html') 
+
+@app.route('/Monitor', methods=['POST'])
+def submit_filter():
+    sort_by = request.form['SORTBY']
+    intable_value = request.form['intable_value']
+    print("Sort by:", sort_by)
+    print("Intable value:", intable_value)
+    
+    global thread
+    with thread_lock:
+        if thread:  # ตรวจสอบว่าเธรดเก่ายังมีอยู่หรือไม่
+            stop_event.set()  # เซ็ต stop_event เป็น True เพื่อให้เธรดเก่าหยุดทำงาน
+            thread.join()  # รอให้เธรดเก่าจบการทำงานก่อน
+            thread = None  # ลบเธรดเก่าทิ้ง
+        stop_event.clear()  # เซ็ต stop_event เป็น False เพื่อเตรียมสำหรับเธรดใหม่
+        
+        
+        thread = socketio.start_background_task(lambda: background_thread(sort_by, intable_value))
+        print("Current thread Switch:", thread)
+
+    return redirect(url_for('Monitor'))
+    
 
 @app.route('/History')
 def History():
