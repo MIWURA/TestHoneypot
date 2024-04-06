@@ -6,10 +6,12 @@
     <title>History</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     </script>
+    
     {% extends 'home.html' %}
 </head>
 <body>
     {% block content %}
+    
     <div class="container" id="content">
         <h2 class="mt-5 mb-4">History</h2>
         <table class="table table-bordered" >
@@ -39,7 +41,25 @@
                     </tr>
                 {% endfor %}
             </tbody>
-        </table>        
+        </table>
+        
+    <!--		Start Pagination -->
+	<div class='pagination-container' >
+        <script type="text/javascript" src="{{ url_for('static', filename = 'js/pagination.js') }}"></script>
+		<nav>
+			<ul class="pagination">
+            
+                <li data-page="prev" >
+						<span>  <span class="sr-only">(current)</span></span>
+				</li>
+				<!--Here the JS Function Will Add the Rows -->
+                <li data-page="next" id="prev">
+				<span> > <span class="sr-only">(current)</span></span>
+				</li>
+			</ul>
+		</nav>
+	</div> <!-- 		End of Container -->
+
     </div>
     {% endblock %}
 </body>

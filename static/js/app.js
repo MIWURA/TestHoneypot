@@ -59,7 +59,7 @@ $(document).ready(function () {
     
         // Populate options based on selected SORTBY value
         if (sortby === 'Type') {
-            var options = ['Cowrie', 'Dionaea']; // Example options
+            var options = ['Cowrie', 'Dionaea']; 
             options.forEach(function(option) {
                 var newOption = document.createElement('option');
                 newOption.value = option;
@@ -67,7 +67,7 @@ $(document).ready(function () {
                 intable_value_dropdown.appendChild(newOption);
             });
         } else if (sortby === 'Alert') {
-            var options = ['RED!', 'YELLOW!']; // Example options
+            var options = ['RED!', 'YELLOW!', 'ORANGE!']; 
             options.forEach(function(option) {
                 var newOption = document.createElement('option');
                 newOption.value = option;
