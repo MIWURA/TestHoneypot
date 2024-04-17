@@ -1,11 +1,13 @@
 from flask_mysqldb import MySQL
 from flask import Flask
+import time
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'mypot'
 app.config['MYSQL_PASSWORD'] = 'Mypot@123'
 app.config['MYSQL_DB'] = 'mypot'
 mysql = MySQL(app)
+
 
 
 def Get_20db():
@@ -88,3 +90,12 @@ def Get_ForDw(sort_by):
             data = cur.fetchall()
         
         return data
+   
+def getDB(data):
+    data_list = data.split(", ")
+    insertrec = mysql.connection.cursor()
+    sqlqurey="insert into honeypot(type,alert,date,time,ip_attacker,ip_server,protocol,comment) values ('"+data_list[0]+"','"+data_list[1]+"','"+data_list[2]+"','"+data_list[3]+"','"+data_list[4]+"','"+"-"+"','"+data_list[5]+"','"+data_list[6]+"')"
+    insertrec.execute(sqlqurey)
+    print("commit")
+    mysql.connection.cursor().commit()
+    #db.close()

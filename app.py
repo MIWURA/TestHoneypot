@@ -1,6 +1,6 @@
 # app.py
 
-from flask import Flask, g, redirect, render_template, request, jsonify, make_response, url_for
+from flask import Flask, g, redirect, render_template, request, jsonify, make_response, url_for,Response
 from flask_socketio import SocketIO, emit
 import sqlite3
 from urllib.parse import quote, unquote
@@ -113,6 +113,23 @@ def History():
     return render_template('History.html',data=data) 
 
 
+def respond_to_client():
+    while True:
+      global counter
+      #log_lines = []
+      with open("DBcowrie.txt", "r+") as f:
+        for line in f.readlines():
+          getDB(line)
+          print(line)
+          print("******************")
+          print(counter)
+          counter += 1
+          _data = json.dumps({"line":line, "counter":counter})
+          yield f"id: 1\ndata: {_data}\nevent: online\n\n"
+      with open("DBcowrie.txt", "w+") as f:
+        f.write("")
+      time.sleep(0.5)
 
 if __name__ == '__main__':
-    socketio.run(app,debug=True)
+    respond_to_client()
+    socketio.run(app,debug=True,host='0.0.0.0', port=5000)
