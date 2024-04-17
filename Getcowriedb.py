@@ -26,6 +26,10 @@ while True:
 				elif temp[2]== "Connection" and  temp[3]== "lost" and temp[5]== "0":
 					alert = "YELLOW!"
 					type_of_attack  = "Someone try to connect server and get some data"
+				elif temp[2][:-1]== "CMD" :
+					alert = "orange!"
+					cmd=temp[3]
+					type_of_attack  = "CMD: "+cmd
 			elif  temp[1][1:][:-18] == "CowrieTelnetTransport" :
 				protocal = "Telnet"
 				ip_of_attack = temp[1][26:][:-1]
