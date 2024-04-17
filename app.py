@@ -118,7 +118,7 @@ def respond_to_client():
         global counter
         with open("DBcowrie.txt", "r+") as f:
             lines = f.readlines()
-            if not lines:  # ตรวจสอบว่าไฟล์ว่างหรือไม่
+            if not lines or lines =="\n":  # ตรวจสอบว่าไฟล์ว่างหรือไม่
                 time.sleep(0.5)
                 continue
             
