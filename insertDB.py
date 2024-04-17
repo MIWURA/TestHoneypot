@@ -13,7 +13,7 @@ def respond_to_client():
             f.seek(0)
             f.truncate()
             for line in log_lines:
-                getDB(line)  # ลบช่องว่างและตัวขึ้นบรรทัดในท้ายของข้อความ
+                getDB(line) 
                 print(line)
                 print("******************")
                 print(counter)
