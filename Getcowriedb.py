@@ -27,7 +27,7 @@ while True:
 					alert = "YELLOW!"
 					type_of_attack  = "Someone try to connect server and get some data"
 				elif temp[2][:-1]== "CMD" :
-					alert = "orange!"
+					alert = "ORANGE!"
 					cmd=temp[3]
 					type_of_attack  = "CMD: "+cmd
 			elif  temp[1][1:][:-18] == "CowrieTelnetTransport" :
