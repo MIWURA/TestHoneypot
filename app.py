@@ -115,20 +115,23 @@ def History():
 
 def respond_to_client():
     while True:
-      global counter
-      #log_lines = []
-      with open("DBcowrie.txt", "r+") as f:
-        for line in f.readlines():
-          getDB(line)
-          print(line)
-          print("******************")
-          print(counter)
-          counter += 1
-          _data = json.dumps({"line":line, "counter":counter})
-          yield f"id: 1\ndata: {_data}\nevent: online\n\n"
-      with open("DBcowrie.txt", "w+") as f:
-        f.write("")
-      time.sleep(0.5)
+        global counter
+        with open("DBcowrie.txt", "r+") as f:
+            lines = f.readlines()
+            if not lines:  # ตรวจสอบว่าไฟล์ว่างหรือไม่
+                time.sleep(0.5)
+                continue
+            
+            for line in lines:
+                getDB(line)
+                print(line)
+                print("******************")
+                print(counter)
+                counter += 1
+                _data = json.dumps({"line": line, "counter": counter})
+                yield f"id: 1\ndata: {_data}\nevent: online\n\n"
+                
+            f.truncate(0) 
 
 if __name__ == '__main__':
     respond_to_client()
