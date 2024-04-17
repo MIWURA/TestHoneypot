@@ -92,11 +92,14 @@ def Get_ForDw(sort_by):
         return data
    
 def getDB(data):
-    with app.app_context():
-        with mysql.connection.cursor() as cur:
-            data_list = data.split(", ")
-            print(data_list)
-            cur.execute("INSERT INTO honeypot (type, alert, date, time, ip_attacker, ip_server, protocol, comment) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (data_list[0], data_list[1], data_list[2], data_list[3], data_list[4], "-", data_list[5], data_list[6]))
-            print("commit")
-            mysql.connection.commit()
+    try:
+        with app.app_context():
+            with mysql.connection.cursor() as cur:
+                data_list = data.split(", ")
+                print(data_list)
+                cur.execute("INSERT INTO honeypot (type, alert, date, time, ip_attacker, ip_server, protocol, comment) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (data_list[0], data_list[1], data_list[2], data_list[3], data_list[4], "-", data_list[5], data_list[6]))
+                print("commit")
+                mysql.connection.commit()
+    except Exception as e:
+        print("emty")
     #db.close()
