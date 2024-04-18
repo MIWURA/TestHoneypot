@@ -32,6 +32,7 @@ while True:
 					cmd=temp[3]
 					type_of_attack  = "CMD: "+cmd
 			elif  temp[1][1:][:-18] == "CowrieTelnetTransport" :
+				print("in if telnet")
 				protocal = "Telnet"
 				ip_of_attack = temp[1][26:][:-1]
 				if temp[2]== "Connection" and  temp[3]== "lost" :
