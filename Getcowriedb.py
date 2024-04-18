@@ -21,8 +21,9 @@ while True:
 					alert = "RED!"
 					temp2 = temp[4].split("'")
 					user = temp2[1]
+					status = temp[5]
 					password = temp2[3]
-					type_of_attack  = "Someone try to login server By User: "+user+" Password: "+password
+					type_of_attack  = "Someone try to login server By User: "+user+" Password: "+password+" status: "+status
 				elif temp[2]== "Connection" and  temp[3]== "lost" and temp[5]== "0":
 					alert = "YELLOW!"
 					type_of_attack  = "Someone try to connect server and get some data"
@@ -33,9 +34,20 @@ while True:
 			elif  temp[1][1:][:-18] == "CowrieTelnetTransport" :
 				protocal = "Telnet"
 				ip_of_attack = temp[1][26:][:-1]
-				if temp[2]== "Connection" and  temp[3]== "lost" and temp[5]== "0":
+				if temp[2]== "Connection" and  temp[3]== "lost" :
 					alert = "YELLOW!"
 					type_of_attack  = "Someone try to connect server and get some data"
+				elif temp[2][:-1]== "CMD" :
+					alert = "ORANGE!"
+					cmd=temp[3]
+					type_of_attack  = "CMD: "+cmd
+				elif temp[2]=="login" and temp[3]=="attempt":
+					alert = "RED!"
+					temp2 = temp[4].split("'")
+					user = temp2[1]
+					status = temp[5]
+					password = temp2[3]
+					type_of_attack  = "Someone try to login server By User: "+user+" Password: "+password+" status: "+status
 
 		if alert != "":
 			data_log =  "Cowrie, "+alert+", "+date+", "+time_str+", "+ip_of_attack+", "+protocal+", "+type_of_attack+"\n"
