@@ -46,7 +46,10 @@ while True:
 					temp2 = temp[4].split("'")
 					user = temp2[1]
 					status = temp[5]
-					password = temp2[3]
+					try:
+						password = temp2[3]
+					except Exception as e:
+						password = ''
 					type_of_attack  = "Someone try to login server By User: "+user+" Password: "+password+" status: "+status
 
 		if alert != "":
