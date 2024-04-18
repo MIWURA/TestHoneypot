@@ -31,10 +31,9 @@ while True:
 					alert = "ORANGE!"
 					cmd=temp[3]
 					type_of_attack  = "CMD: "+cmd
-			elif  temp[1][1:][:-18] == "CowrieTelnetTransport" :
-				print("in if telnet")
+			elif  temp_colon[0][1:] == "CowrieTelnetTransport" :
 				protocal = "Telnet"
-				ip_of_attack = temp[1][26:][:-1]
+				ip_of_attack = temp_colon[2][:-1]
 				if temp[2]== "Connection" and  temp[3]== "lost" :
 					alert = "YELLOW!"
 					type_of_attack  = "Someone try to connect server and get some data"
