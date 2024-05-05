@@ -7,15 +7,14 @@ while True:
     file3 = open('DBcowrie_backup.txt', 'a')
     for i in file1:
         alert = ""
-        if i[0] == "[" and i.split(' ') == 11 :
+        if i[0] == "[":
             temp = i.split(' ')
             #temp_colon = temp[1].split(',')
-            date = temp[0][1:]
-            date = date[4:]+"-"+date[2:][:-4]+"-"+date[:-6]
-            time_str = temp[1][:-1]
             if temp[2] == "log_sqlite" :
                 if temp[4]=="accepted" and temp[5]=="connection":
-    
+                    date = temp[0][1:]
+                    date = date[4:]+"-"+date[2:][:-4]+"-"+date[:-6]
+                    time_str = temp[1][:-1]
                     ips_temp = temp[9].split(':')
                     ipa_temp = temp[7].split(':')
                     #protocol = ips_temp[1]
