@@ -1,9 +1,10 @@
 import time
 
-count = 0
-while True:
-    try:
-        with open('/opt/dionaea/var/log/dionaea/dionaea.log') as file1:
+# เปิดไฟล์1 ครั้งเดียวนอกลูป
+with open('/opt/dionaea/var/log/dionaea/dionaea.log') as file1:
+    count = 0
+    while True:
+        try:
             with open('DBcowrie.txt','a') as file2, open('DBcowrie_backup.txt', 'a') as file3:
                 for i in file1:
                     alert = ""
@@ -32,9 +33,9 @@ while True:
                         file2.write(data_log)
                         file3.write(data_log)
                         print(data_log)
-        time.sleep(20)
-    except Exception as e:
-        print("An error occurred:", str(e))
-    
-    print("loop",count)
-    count += 1
+            time.sleep(20)
+        except Exception as e:
+            print("An error occurred:", str(e))
+        
+        print("loop",count)
+        count += 1
