@@ -7,7 +7,7 @@ while True:
     file3 = open('DBcowrie_backup.txt', 'a')
     for i in file1:
         alert = ""
-        if i[0] == "[" and i.split(' ') ==10 :
+        if i[0] == "[" and i.split(' ') == 11 :
             temp = i.split(' ')
             #temp_colon = temp[1].split(',')
             date = temp[0][1:]
