@@ -54,6 +54,11 @@
                 };
 
                 Plotly.newPlot('chart', [trace], layout);
+                
+                chart.on('plotly_hover', function (data) {
+                    var xValue = data.points[0].x;
+                    console.log('xValue:', xValue); // แสดง xValue ใน console
+                });
             })
             .catch(error => {
                 console.error('Error fetching data:', error); // แสดงข้อผิดพลาดในการเรียกข้อมูล
