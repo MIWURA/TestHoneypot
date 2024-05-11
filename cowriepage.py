@@ -3,6 +3,13 @@ from flask import Flask
 from flask_mysqldb import MySQL
 
 app = Flask(__name__)
+
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'mypot'
+app.config['MYSQL_PASSWORD'] = 'Mypot@123'
+app.config['MYSQL_DB'] = 'cowrie'
+app.config['MYSQL_PORT'] = 4040  # Ensure that MySQL is running on this port
+
 print("MYSQL_HOST:", app.config['localhost'])
 print("MYSQL_USER:", app.config['mypot'])
 print("MYSQL_PASSWORD:", app.config['Mypot@123'])
