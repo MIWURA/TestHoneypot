@@ -14,9 +14,12 @@ from flask_paginate import Pagination
 from models import db,Mypot
 from threading import Lock
 from func import *
-from cowriepage import cowriepage
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://mypot:Mypot@123@localhost/cowrie'
+db = SQLAlchemy(app)
+
+from cowriepage import cowriepage
 app.register_blueprint(cowriepage)
 # app.config['SECRET_KEY'] = secrets.token_hex(16)
 #DATABASE = '../Database_test/dionaea.sqlite'
@@ -84,12 +87,6 @@ def dionaea_index():
 def cowrie_index():
     return render_template('/cowrie/index.html')
 
-@app.route('/ShowtableCowrie', methods=['POST'])
-def ShowtableCowrie():
-    selected_option = request.form['selection']
-    process_data(selected_option)
-    # ทำอะไรก็ตามที่ต้องการเมื่อได้ข้อมูลแล้ว เช่น บันทึกข้อมูลลงในฐานข้อมูล
-    return "Data processed successfully!"
 
 @app.route('/Monitor')
 def Monitor():
