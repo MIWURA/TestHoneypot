@@ -11,9 +11,16 @@ import time
 from flask_paginate import Pagination
 from threading import Lock
 from func import *
-from cowriepage import fetch_cowriedata
 
 app = Flask(__name__)
+
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'mypot'
+app.config['MYSQL_PASSWORD'] = 'Mypot@123'
+app.config['MYSQL_DB'] = 'cowrie'
+app.config['MYSQL_PORT'] = 4040
+mysql = MySQL(app)
+
 thread = None
 thread_lock = Lock()
 
@@ -64,6 +71,25 @@ def dionaea_index():
 @app.route('/cowrie')
 def cowrie_index():
     return render_template('/cowrie/index.html')
+
+def fetch_cowriedata(selected_option):
+    try:
+        cur = mysql.connection.cursor()
+        query = {
+            'username': "SELECT username, COUNT(username) FROM auth GROUP BY username ORDER BY COUNT(username) DESC LIMIT 20;",
+            'password': "SELECT password, COUNT(password) FROM auth GROUP BY password ORDER BY COUNT(password) DESC LIMIT 20;"
+        }.get(selected_option)
+
+        if query:
+            cur.execute(query)
+            results = cur.fetchall()
+            cur.close()
+            return [{"option": selected_option, "value": row[0], 'count': row[1]} for row in results]
+        else:
+            raise ValueError("Invalid selection provided")
+    except Exception as e:
+        raise e
+
 
 @app.route('/ShowtableCowrie', methods=['POST'])
 def ShowtableCowrie():
@@ -131,6 +157,8 @@ def respond_to_client():
                 yield f"id: 1\ndata: {_data}\nevent: online\n\n"
                 
             f.truncate(0) 
+
+
 
 if __name__ == '__main__':
     respond_to_client()
