@@ -44,14 +44,15 @@
                 const layout = {
                     title: 'Top 10 ' + selectElement.value.charAt(0).toUpperCase() + selectElement.value.slice(1),
                     xaxis: {
-                        title: selectElement.value.charAt(0).toUpperCase() + selectElement.value.slice(1)
+                        title: selectElement.value.charAt(0).toUpperCase() + selectElement.value.slice(1),
+                        automargin: true // Allow automatic margin adjustment
                     },
                     yaxis: {
                         title: 'Count'
                     }
                 };
 
-                Plotly.newPlot('chart', [trace], layout);
+                Plotly.newPlot('chart',  fetchDataAndPlot);
             })
             .catch(error => {
                 console.error('Error fetching data:', error); // แสดงข้อผิดพลาดในการเรียกข้อมูล
