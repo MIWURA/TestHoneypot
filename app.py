@@ -11,26 +11,11 @@ import time
 from flask_paginate import Pagination
 from threading import Lock
 from func import *
+from cowriepage import fetch_cowriedata
 
 app = Flask(__name__)
-
-
-from cowriepage import cowriepage_blueprint
-app.register_blueprint(cowriepage_blueprint)
-# app.config['SECRET_KEY'] = secrets.token_hex(16)
-#DATABASE = '../Database_test/dionaea.sqlite'
-
 thread = None
 thread_lock = Lock()
-
-# password_encoded = quote("Mypot@123")
-# app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql://mypot@localhost/mypot?password={password_encoded}'
-# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-# app.config['MYSQL_HOST'] = 'localhost'
-# app.config['MYSQL_USER'] = 'mypot'
-# app.config['MYSQL_PASSWORD'] = 'Mypot@123'
-# app.config['MYSQL_DB'] = 'mypot'
 
 socketio = SocketIO(app)  
 stop_event = Event()
@@ -80,6 +65,20 @@ def dionaea_index():
 def cowrie_index():
     return render_template('/cowrie/index.html')
 
+@app.route('/ShowtableCowrie', methods=['POST'])
+def ShowtableCowrie():
+    selected_option = request.form.get('selection', None)
+    if not selected_option:
+        return jsonify({"error": "No selection provided"}), 400
+
+    try:
+        result = fetch_cowriedata(selected_option)
+        return jsonify(result)
+    except ValueError as ve:
+        return jsonify({"error": str(ve)}), 400
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
 
 @app.route('/Monitor')
 def Monitor():

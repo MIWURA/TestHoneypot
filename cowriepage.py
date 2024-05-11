@@ -2,7 +2,6 @@ from flask import Blueprint, request, jsonify
 from flask import Flask
 from flask_mysqldb import MySQL
 
-cowriepage_blueprint = Blueprint('cowriepage', __name__)
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'mypot'
@@ -10,13 +9,7 @@ app.config['MYSQL_PASSWORD'] = 'Mypot@123'
 app.config['MYSQL_DB'] = 'cowrie'
 mysql = MySQL(app)
 
-
-@cowriepage_blueprint.route('/ShowtableCowrie', methods=['POST'])
-def ShowtableCowrie():
-    selected_option = request.form.get('selection', None)
-    if not selected_option:
-        return jsonify({"error": "No selection provided"}), 400
-
+def fetch_cowriedata(selected_option):
     try:
         cur = mysql.connection.cursor()
         query = {
@@ -28,9 +21,8 @@ def ShowtableCowrie():
             cur.execute(query)
             results = cur.fetchall()
             cur.close()
-            result = [{selected_option: row[0], 'count': row[1]} for row in results]
-            return jsonify(result)
+            return [{"option": selected_option, "value": row[0], 'count': row[1]} for row in results]
         else:
-            return jsonify({"error": "Invalid selection"}), 400
+            raise ValueError("Invalid selection provided")
     except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        raise e
