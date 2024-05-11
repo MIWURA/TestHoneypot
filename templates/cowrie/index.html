@@ -4,7 +4,51 @@
 
 <!-- เพิ่มหรือแก้ไขส่วน content ตามต้องการ -->
 {% block content %}
-    <h2 class="mt-5 mb-4">Cowrie Index Page</h2>
-    <!-- เนื้อหาของหน้า Cowrie ที่คุณต้องการแสดง -->
-    <p>This is the content of the Cowrie Index page.</p>
+<h2 class="mt-5 mb-4">Cowrie Index Page</h2>
+<!-- เนื้อหาของหน้า Cowrie ที่คุณต้องการแสดง -->
+<form id="cowrieForm" action="/ShowtableCowrie" method="POST">
+    <label for="selection">Select an Option:</label>
+    <select name="selection" id="selection">
+        <option value="username">Top Uername</option>
+        <option value="password">Top Password</option>
+
+    </select>
+</form>
+
+<div id="chart"></div>
+
+<script>
+    document.getElementById("selection").addEventListener("change", function () {
+        document.getElementById("cowrieForm").submit();
+    });
+
+    fetch('/ShowtableCowrie', {
+        method: 'POST',
+        body: new FormData(document.getElementById('cowrieForm'))
+    })
+        .then(response => response.json())
+        .then(data => {
+            const xValues = data.map(item => item.username); // หรือ item.password ตามที่ต้องการ
+            const yValues = data.map(item => item.count);
+
+            const trace = {
+                x: xValues,
+                y: yValues,
+                type: 'bar'
+            };
+
+            const layout = {
+                title: 'Top 20 Usernames', // หรือ 'Top 20 Passwords' ตามที่ต้องการ
+                xaxis: {
+                    title: 'Username' // หรือ 'Password' ตามที่ต้องการ
+                },
+                yaxis: {
+                    title: 'Count'
+                }
+            };
+
+            Plotly.newPlot('chart', [trace], layout);
+        });
+</script>
+
 {% endblock %}

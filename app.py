@@ -14,22 +14,27 @@ from flask_paginate import Pagination
 from models import db,Mypot
 from threading import Lock
 from func import *
+from cowriepage import cowriepage
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = secrets.token_hex(16)
+app.register_blueprint(cowriepage)
+# app.config['SECRET_KEY'] = secrets.token_hex(16)
 #DATABASE = '../Database_test/dionaea.sqlite'
 
 thread = None
 thread_lock = Lock()
 
-password_encoded = quote("Mypot@123")
-app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql://mypot@localhost/mypot?password={password_encoded}'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# password_encoded = quote("Mypot@123")
+# app.config['SQLALCHEMY_DATABASE_URI'] = f'mysql://mypot@localhost/mypot?password={password_encoded}'
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'mypot'
-app.config['MYSQL_PASSWORD'] = 'Mypot@123'
-app.config['MYSQL_DB'] = 'mypot'
+# app.config['MYSQL_HOST'] = 'localhost'
+# app.config['MYSQL_USER'] = 'mypot'
+# app.config['MYSQL_PASSWORD'] = 'Mypot@123'
+# app.config['MYSQL_DB'] = 'mypot'
+
+app.config['MYSQL_URI_MYPOT'] = 'mysql://mypot:Mypot%40123@localhost/mypot'
+app.config['MYSQL_URI_COWRIE'] = 'mysql://mypot:Mypot%40123@localhost/cowrie'
 
 mysql = MySQL(app)
 db.init_app(app)
@@ -80,6 +85,13 @@ def dionaea_index():
 @app.route('/cowrie')
 def cowrie_index():
     return render_template('/cowrie/index.html')
+
+@app.route('/ShowtableCowrie', methods=['POST'])
+def ShowtableCowrie():
+    selected_option = request.form['selection']
+    process_data(selected_option)
+    # ทำอะไรก็ตามที่ต้องการเมื่อได้ข้อมูลแล้ว เช่น บันทึกข้อมูลลงในฐานข้อมูล
+    return "Data processed successfully!"
 
 @app.route('/Monitor')
 def Monitor():
