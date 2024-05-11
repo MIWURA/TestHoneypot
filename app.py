@@ -11,6 +11,9 @@ import time
 from flask_paginate import Pagination
 from threading import Lock
 from func import *
+import matplotlib.pyplot as plt
+import io
+
 
 
 app = Flask(__name__)
@@ -61,7 +64,34 @@ def home():
 def dionaea_index():
     return render_template('/dionaea/index.html')
 
-@app.route('/ShowtableDionaea', methods=['POST'])
+def get_datadionaea():
+    conn = sqlite3.connect('/opt/dionaea/var/lib/dionaea/dionaea.db')
+    cur = conn.cursor()
+    # สมมติว่ามีตาราง 'log' ที่มีคอลัมน์ 'type' และคุณต้องการนับจำนวนแต่ละประเภท
+    cur.execute('SELECT protocol, COUNT(protocol) FROM connection GROUP BY connection ORDER BY COUNT(connection);')
+    data = cur.fetchall()
+    cur.close()
+    conn.close()
+    return data
+
+@app.route('/ShowtableDionaea', methods=['GET', 'POST'])  # ให้สามารถเข้าถึงได้ทั้ง GET และ POST
+def show_pie_chart():
+    data = get_datadionaea()
+    labels = [x[0] for x in data]
+    sizes = [x[1] for x in data]
+
+    # สร้าง pie chart
+    fig, ax = plt.subplots()
+    ax.pie(sizes, labels=labels, autopct='%1.1f%%', shadow=True, startangle=90)
+    ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+    # บันทึก pie chart เป็น PNG ใน memory
+    img = io.BytesIO()
+    plt.savefig(img, format='png')
+    plt.close()
+    img.seek(0)
+
+    return Response(img.getvalue(), mimetype='image/png')
 
 @app.route('/cowrie')
 def cowrie_index():
