@@ -33,10 +33,11 @@
                 }
 
                 const xValues = data.map(item => item.value);
+                const shortxValues = data.map(item => item.value.slice(0, 10));
                 const yValues = data.map(item => item.count);
 
                 const trace = {
-                    x: xValues,
+                    x: shortxValues,
                     y: yValues,
                     type: 'bar'
                 };
