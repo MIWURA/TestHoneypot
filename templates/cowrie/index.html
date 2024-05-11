@@ -32,25 +32,20 @@
                     return; // ออกจากฟังก์ชันหากข้อมูลที่ได้รับไม่ใช่ array
                 }
 
-                const xValues = data.map(item => {
-                    const maxLength = 10; // กำหนดความยาวสูงสุดที่ต้องการแสดง
-                    return item.shortValue.length > maxLength ? item.shortValue.substring(0, maxLength) + '...' : item.shortValue;
-                });
+                const xValues = data.map(item => item.value);
                 const yValues = data.map(item => item.count);
 
                 const trace = {
                     x: xValues,
                     y: yValues,
-                    type: 'bar',
-                    hoverinfo: 'text', // แสดงข้อความใน Hover Mode
-                    hovertext: data.map(item => item.value) // ใช้ข้อความเต็ม
+                    type: 'bar'
                 };
 
                 const layout = {
                     title: 'Top 10 ' + selectElement.value.charAt(0).toUpperCase() + selectElement.value.slice(1),
                     xaxis: {
                         title: selectElement.value.charAt(0).toUpperCase() + selectElement.value.slice(1),
-                        automargin: true // ปรับ margin ให้ไม่ซ้อนทับ
+                        automargin: true // Allow automatic margin adjustment
                     },
                     yaxis: {
                         title: 'Count'
@@ -69,7 +64,6 @@
     // Initial fetch and plot
     fetchDataAndPlot();
 </script>
-
 
 
 {% endblock %}
