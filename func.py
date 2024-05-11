@@ -6,6 +6,7 @@ app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'mypot'
 app.config['MYSQL_PASSWORD'] = 'Mypot@123'
 app.config['MYSQL_DB'] = 'mypot'
+app.config['MYSQL_PORT'] = 4040
 mysql = MySQL(app)
 
 
