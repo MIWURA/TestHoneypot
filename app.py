@@ -68,7 +68,7 @@ def get_datadionaea():
     conn = sqlite3.connect('/opt/dionaea/var/lib/dionaea/dionaea.db')
     cur = conn.cursor()
     # สมมติว่ามีตาราง 'log' ที่มีคอลัมน์ 'type' และคุณต้องการนับจำนวนแต่ละประเภท
-    cur.execute('SELECT protocol, COUNT(protocol) FROM connection GROUP BY connection ORDER BY COUNT(connection);')
+    cur.execute('SELECT protocol, COUNT(protocol) FROM connection GROUP BY protocol ORDER BY COUNT(protocol);')
     data = cur.fetchall()
     cur.close()
     conn.close()
