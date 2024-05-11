@@ -34,7 +34,6 @@ thread_lock = Lock()
 # app.config['MYSQL_DB'] = 'mypot'
 
 app.config['MYSQL_URI_MYPOT'] = 'mysql://mypot:Mypot%40123@localhost/mypot'
-app.config['MYSQL_URI_COWRIE'] = 'mysql://mypot:Mypot%40123@localhost/cowrie'
 
 mysql = MySQL(app)
 db.init_app(app)
