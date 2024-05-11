@@ -23,39 +23,39 @@
             method: 'POST',
             body: new FormData(formElement)
         })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Received data:', data); // แสดงข้อมูลที่ได้รับใน console
+            .then(response => response.json())
+            .then(data => {
+                console.log('Received data:', data); // แสดงข้อมูลที่ได้รับใน console
 
-            if (!Array.isArray(data)) {
-                console.error('Received data is not an array:', data);
-                return; // ออกจากฟังก์ชันหากข้อมูลที่ได้รับไม่ใช่ array
-            }
-
-            const xValues = data.map(item => item.value);
-            const yValues = data.map(item => item.count);
-
-            const trace = {
-                x: xValues,
-                y: yValues,
-                type: 'bar'
-            };
-
-            const layout = {
-                title: 'Top 20 ' + selectElement.value.charAt(0).toUpperCase() + selectElement.value.slice(1),
-                xaxis: {
-            title: selectElement.value.charAt(0).toUpperCase() + selectElement.value.slice(1)
-                },
-                yaxis: {
-                    title: 'Count'
+                if (!Array.isArray(data)) {
+                    console.error('Received data is not an array:', data);
+                    return; // ออกจากฟังก์ชันหากข้อมูลที่ได้รับไม่ใช่ array
                 }
-            };
 
-            Plotly.newPlot('chart', [trace], layout);
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error); // แสดงข้อผิดพลาดในการเรียกข้อมูล
-        });
+                const xValues = data.map(item => item.value);
+                const yValues = data.map(item => item.count);
+
+                const trace = {
+                    x: xValues,
+                    y: yValues,
+                    type: 'bar'
+                };
+
+                const layout = {
+                    title: 'Top 10 ' + selectElement.value.charAt(0).toUpperCase() + selectElement.value.slice(1),
+                    xaxis: {
+                        title: selectElement.value.charAt(0).toUpperCase() + selectElement.value.slice(1)
+                    },
+                    yaxis: {
+                        title: 'Count'
+                    }
+                };
+
+                Plotly.newPlot('chart', [trace], layout);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error); // แสดงข้อผิดพลาดในการเรียกข้อมูล
+            });
     }
 
     selectElement.addEventListener("change", fetchDataAndPlot);

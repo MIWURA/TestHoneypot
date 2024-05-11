@@ -76,8 +76,8 @@ def fetch_cowriedata(selected_option):
     try:
         cur = mysql.connection.cursor()
         query = {
-            'username': "SELECT username, COUNT(username) FROM auth GROUP BY username ORDER BY COUNT(username) DESC LIMIT 20;",
-            'password': "SELECT password, COUNT(password) FROM auth GROUP BY password ORDER BY COUNT(password) DESC LIMIT 20;"
+            'username': "SELECT username, COUNT(username) FROM auth GROUP BY username ORDER BY COUNT(username) DESC LIMIT 10;",
+            'password': "SELECT password, COUNT(password) FROM auth GROUP BY password ORDER BY COUNT(password) DESC LIMIT 10;"
         }.get(selected_option)
 
         if query:
