@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'mypot'
 app.config['MYSQL_PASSWORD'] = 'Mypot@123'
-app.config['MYSQL_DB'] = 'mypot'
+app.config['MYSQL_DB'] = 'cowrie'
 mysql = MySQL(app)
 
 
@@ -17,17 +17,20 @@ def ShowtableCowrie():
     if not selected_option:
         return jsonify({"error": "No selection provided"}), 400
 
-    cur = mysql.connection.cursor()
+    try:
+        cur = mysql.connection.cursor()
+        query = {
+            'username': "SELECT username, COUNT(username) FROM auth GROUP BY username ORDER BY COUNT(username) DESC LIMIT 20;",
+            'password': "SELECT password, COUNT(password) FROM auth GROUP BY password ORDER BY COUNT(password) DESC LIMIT 20;"
+        }.get(selected_option)
 
-    if selected_option == 'username':
-        cur.execute("SELECT username, COUNT(username) FROM auth GROUP BY username ORDER BY COUNT(username) DESC LIMIT 20;")
-    elif selected_option == 'password':
-        cur.execute("SELECT password, COUNT(password) FROM auth GROUP BY password ORDER BY COUNT(password) DESC LIMIT 20;")
-    else:
-        return jsonify({"error": "Invalid selection"}), 400
-
-    results = cur.fetchall()
-    cur.close()
-
-    result = [{selected_option: row[0], 'count': row[1]} for row in results]
-    return jsonify(result)
+        if query:
+            cur.execute(query)
+            results = cur.fetchall()
+            cur.close()
+            result = [{selected_option: row[0], 'count': row[1]} for row in results]
+            return jsonify(result)
+        else:
+            return jsonify({"error": "Invalid selection"}), 400
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
