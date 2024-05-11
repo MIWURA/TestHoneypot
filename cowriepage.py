@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify
 from sqlalchemy import func
 from app import db  # นำเข้า SQLAlchemy instance จากไฟล์ app.py
 
-cowriepage = Blueprint('cowriepage', __name__)
+cowriepage_blueprint = Blueprint('cowriepage', __name__)
 
 class AuthLog(db.Model):
     __tablename__ = 'auth'

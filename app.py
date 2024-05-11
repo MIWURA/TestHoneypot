@@ -19,8 +19,8 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://mypot:Mypot%40123@localhost/cowrie'
 db = SQLAlchemy(app)
 
-from cowriepage import cowriepage
-app.register_blueprint(cowriepage)
+from cowriepage import cowriepage_blueprint
+app.register_blueprint(cowriepage_blueprint)
 # app.config['SECRET_KEY'] = secrets.token_hex(16)
 #DATABASE = '../Database_test/dionaea.sqlite'
 
