@@ -12,6 +12,7 @@ from flask_paginate import Pagination
 from threading import Lock
 from func import *
 
+
 app = Flask(__name__)
 
 app.config['MYSQL_HOST'] = 'localhost'
@@ -56,17 +57,11 @@ def background_thread(sort_by=None, intable_value=None):
 def home():
     return render_template('home.html')
 
-@app.route('/dionaea/chart')
-def dionaea_chart():
-    return render_template('/dionaea/Chart_1.html')
-
-@app.route('/dionaea/table')
-def dionaea_table():
-    return render_template('/dionaea/table_1.html')
-
 @app.route('/dionaea')
 def dionaea_index():
     return render_template('/dionaea/index.html')
+
+@app.route('/ShowtableDionaea', methods=['POST'])
 
 @app.route('/cowrie')
 def cowrie_index():
