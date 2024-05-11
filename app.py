@@ -16,7 +16,7 @@ from threading import Lock
 from func import *
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://mypot:Mypot@123@localhost/cowrie'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://mypot:Mypot%40123@localhost/cowrie'
 db = SQLAlchemy(app)
 
 from cowriepage import cowriepage
