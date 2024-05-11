@@ -1,26 +1,26 @@
-from flask import Blueprint, request, jsonify, current_app
-from sqlalchemy import func
+from flask import Blueprint, request, jsonify
+from flask_mysqldb import MySQL
 
 cowriepage_blueprint = Blueprint('cowriepage', __name__)
-
-class AuthLog(current_app.db.Model):
-    __tablename__ = 'auth'
-    id = current_app.db.Column(current_app.db.Integer, primary_key=True)
-    username = current_app.db.Column(current_app.db.String(100), nullable=False)
-    password = current_app.db.Column(current_app.db.String(100), nullable=False)
+mysql = MySQL()
 
 @cowriepage_blueprint.route('/ShowtableCowrie', methods=['POST'])
 def ShowtableCowrie():
-    selected_option = request.form['selection']
+    selected_option = request.form.get('selection', None)
+    if not selected_option:
+        return jsonify({"error": "No selection provided"}), 400
+
+    cur = mysql.connection.cursor()
+
     if selected_option == 'username':
-        with current_app.app_context():
-            username_count = AuthLog.query.with_entities(AuthLog.username, func.count(AuthLog.username)).group_by(AuthLog.username).order_by(func.count(AuthLog.username).desc()).limit(20).all()
-        result = [{'username': row[0], 'count': row[1]} for row in username_count]
-        return jsonify(result)
+        cur.execute("SELECT username, COUNT(username) FROM auth GROUP BY username ORDER BY COUNT(username) DESC LIMIT 20;")
     elif selected_option == 'password':
-        with current_app.app_context():
-            password_count = AuthLog.query.with_entities(AuthLog.password, func.count(AuthLog.password)).group_by(AuthLog.password).order_by(func.count(AuthLog.password).desc()).limit(20).all()
-        result = [{'password': row[0], 'count': row[1]} for row in password_count]
-        return jsonify(result)
+        cur.execute("SELECT password, COUNT(password) FROM auth GROUP BY password ORDER BY COUNT(password) DESC LIMIT 20;")
     else:
-        return "No data available for the selected option."
+        return jsonify({"error": "Invalid selection"}), 400
+
+    results = cur.fetchall()
+    cur.close()
+
+    result = [{selected_option: row[0], 'count': row[1]} for row in results]
+    return jsonify(result)

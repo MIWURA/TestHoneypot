@@ -4,20 +4,16 @@ from flask import Flask, g, redirect, render_template, request, jsonify, make_re
 from flask_socketio import SocketIO, emit
 import sqlite3
 from urllib.parse import quote, unquote
-from flask_mysqldb import MySQL
 import secrets
 import json
 from threading import Thread,Event
 import time
-from flask_sqlalchemy import SQLAlchemy
 from flask_paginate import Pagination
-from models import db,Mypot
 from threading import Lock
 from func import *
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://mypot:Mypot%40123@localhost/cowrie'
-db = SQLAlchemy(app)
+
 
 from cowriepage import cowriepage_blueprint
 app.register_blueprint(cowriepage_blueprint)
@@ -36,9 +32,6 @@ thread_lock = Lock()
 # app.config['MYSQL_PASSWORD'] = 'Mypot@123'
 # app.config['MYSQL_DB'] = 'mypot'
 
-
-mysql = MySQL(app)
-db.init_app(app)
 socketio = SocketIO(app)  
 stop_event = Event()
 
