@@ -2,13 +2,6 @@
 {% extends 'home.html' %}
 
 {% block content %}
-<style>
-    .xaxis text {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-</style>
 <h2 class="mt-5 mb-4">Cowrie Index Page</h2>
 <form id="cowrieForm" action="/ShowtableCowrie" method="POST">
     <label for="selection">Select an Option:</label>
@@ -71,6 +64,13 @@
     // Initial fetch and plot
     fetchDataAndPlot();
 </script>
+<style>
+    .xaxis text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+</style>
 
 
 {% endblock %}
