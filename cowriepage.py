@@ -4,6 +4,8 @@ from sqlalchemy import func
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://mypot:Mypot%40123@localhost/cowrie'
+db = SQLAlchemy(app)
 cowriepage = Blueprint('cowriepage', __name__)
 
 # กำหนดการเชื่อมต่อ MySQL โดยตรงในอ็อบเจ็กต์ MySQL
