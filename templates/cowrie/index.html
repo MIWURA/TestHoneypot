@@ -32,7 +32,7 @@
                 return; // ออกจากฟังก์ชันหากข้อมูลที่ได้รับไม่ใช่ array
             }
 
-            const xValues = data.map(item => item[selectElement.value]);
+            const xValues = data.map(item => item.value);
             const yValues = data.map(item => item.count);
 
             const trace = {
