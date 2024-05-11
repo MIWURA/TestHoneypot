@@ -10,7 +10,7 @@ class AuthLog(db.Model):
     username = db.Column(db.String(100), nullable=False)
     password = db.Column(db.String(100), nullable=False)
 
-@cowriepage.route('/ShowtableCowrie', methods=['POST'])
+@cowriepage_blueprint.route('/ShowtableCowrie', methods=['POST'])
 def ShowtableCowrie():
     selected_option = request.form['selection']
     if selected_option == 'username':
