@@ -8,11 +8,12 @@ cowriepage = Blueprint('cowriepage', __name__)
 
 cowrie_mysql = MySQL(app)
 
-cowrie_mysql.config['MYSQL_HOST'] = 'localhost'
-cowrie_mysql.config['MYSQL_USER'] = 'mypot'
-cowrie_mysql.config['MYSQL_PASSWORD'] = 'Mypot@123'
-cowrie_mysql.config['MYSQL_DB'] = 'cowrie'
+cowrie_mysql.host = 'localhost'
+cowrie_mysql.user = 'mypot'
+cowrie_mysql.password = 'Mypot@123'
+cowrie_mysql.db = 'cowrie'
 
+cowrie_mysql.init_app(app)
 
 class AuthLog(cowriepage.Model):
     __tablename__ = 'auth'
