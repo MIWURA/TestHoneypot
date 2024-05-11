@@ -1,34 +1,31 @@
 <!DOCTYPE html>
-<!-- ในไฟล์ cowrie/index.html -->
 {% extends 'home.html' %}
 
-<!-- เพิ่มหรือแก้ไขส่วน content ตามต้องการ -->
 {% block content %}
 <h2 class="mt-5 mb-4">Cowrie Index Page</h2>
-<!-- เนื้อหาของหน้า Cowrie ที่คุณต้องการแสดง -->
 <form id="cowrieForm" action="/ShowtableCowrie" method="POST">
     <label for="selection">Select an Option:</label>
     <select name="selection" id="selection">
-        <option value="username">Top Uername</option>
+        <option value="username">Top Username</option>
         <option value="password">Top Password</option>
-
     </select>
 </form>
 
 <div id="chart"></div>
 
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 <script>
-    document.getElementById("selection").addEventListener("change", function () {
-        document.getElementById("cowrieForm").submit();
-    });
+    const formElement = document.getElementById("cowrieForm");
+    const selectElement = document.getElementById("selection");
 
-    fetch('/ShowtableCowrie', {
-        method: 'POST',
-        body: new FormData(document.getElementById('cowrieForm'))
-    })
+    function fetchDataAndPlot() {
+        fetch('/ShowtableCowrie', {
+            method: 'POST',
+            body: new FormData(formElement)
+        })
         .then(response => response.json())
         .then(data => {
-            const xValues = data.map(item => item.username); // หรือ item.password ตามที่ต้องการ
+            const xValues = data.map(item => item[selectElement.value]);
             const yValues = data.map(item => item.count);
 
             const trace = {
@@ -38,9 +35,9 @@
             };
 
             const layout = {
-                title: 'Top 20 Usernames', // หรือ 'Top 20 Passwords' ตามที่ต้องการ
+                title: 'Top 20 ' + selectElement.value.charAt(0).toUpperCase() + selectElement.value.slice(1),
                 xaxis: {
-                    title: 'Username' // หรือ 'Password' ตามที่ต้องการ
+                    title: selectElement.value.charAt(0).toUpperCase() + selectElement.value.slice(1)
                 },
                 yaxis: {
                     title: 'Count'
@@ -48,7 +45,14 @@
             };
 
             Plotly.newPlot('chart', [trace], layout);
-        });
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    selectElement.addEventListener("change", fetchDataAndPlot);
+
+    // Initial fetch and plot
+    fetchDataAndPlot();
 </script>
 
 {% endblock %}
