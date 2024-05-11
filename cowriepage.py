@@ -10,11 +10,11 @@ app.config['MYSQL_PASSWORD'] = 'Mypot@123'
 app.config['MYSQL_DB'] = 'cowrie'
 app.config['MYSQL_PORT'] = 4040  # Ensure that MySQL is running on this port
 
-print("MYSQL_HOST:", app.config['localhost'])
-print("MYSQL_USER:", app.config['mypot'])
-print("MYSQL_PASSWORD:", app.config['Mypot@123'])
-print("MYSQL_DB:", app.config['cowrie'])
-print("MYSQL_PORT:", app.config['4040'])
+print("MYSQL_HOST:", app.config['MYSQL_HOST'])
+print("MYSQL_USER:", app.config['MYSQL_USER'])
+print("MYSQL_PASSWORD:", app.config['MYSQL_PASSWORD'])
+print("MYSQL_DB:", app.config['MYSQL_DB'])
+print("MYSQL_PORT:", app.config['MYSQL_PORT'])
 mysql = MySQL(app)
 
 def fetch_cowriedata(selected_option):
