@@ -1,8 +1,15 @@
 from flask import Blueprint, request, jsonify
+from flask import Flask
 from flask_mysqldb import MySQL
 
 cowriepage_blueprint = Blueprint('cowriepage', __name__)
-mysql = MySQL()
+app = Flask(__name__)
+app.config['MYSQL_HOST'] = 'localhost'
+app.config['MYSQL_USER'] = 'mypot'
+app.config['MYSQL_PASSWORD'] = 'Mypot@123'
+app.config['MYSQL_DB'] = 'mypot'
+mysql = MySQL(app)
+
 
 @cowriepage_blueprint.route('/ShowtableCowrie', methods=['POST'])
 def ShowtableCowrie():
