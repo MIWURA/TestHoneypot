@@ -52,7 +52,7 @@
                     }
                 };
 
-                Plotly.newPlot('chart',  fetchDataAndPlot);
+                Plotly.newPlot('chart', [trace], layout);
             })
             .catch(error => {
                 console.error('Error fetching data:', error); // แสดงข้อผิดพลาดในการเรียกข้อมูล
