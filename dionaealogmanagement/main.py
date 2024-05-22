@@ -1,16 +1,19 @@
 import os
 import time
+import fcntl
 from collections import defaultdict
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
-# ฟังก์ชั่นในการอ่าน log จากไฟล์ text
+# ฟังก์ชั่นในการอ่าน log จากไฟล์ text พร้อมการล็อกไฟล์
 def read_log_file(file_path, last_position):
     try:
         with open(file_path, 'r') as file:
+            fcntl.flock(file, fcntl.LOCK_SH)  # ล็อกไฟล์สำหรับการอ่าน
             file.seek(last_position)
             lines = file.readlines()
             last_position = file.tell()
+            fcntl.flock(file, fcntl.LOCK_UN)  # ปลดล็อกไฟล์
             return lines, last_position
     except FileNotFoundError:
         print(f"Error: The file at {file_path} was not found.")
@@ -89,7 +92,7 @@ class LogFileHandler(FileSystemEventHandler):
                 save_logs_by_year_month_and_day(logs_by_year_month_and_day, output_directory)
                 # บันทึกตำแหน่งสุดท้ายที่อ่านไฟล์
                 save_last_position(position_file_path, last_position)
-                # ลบไฟล์ log เก่าถ้าไม่มีการเปลี่ยนแปลงเพิ่มเติม
+                # ลบไฟล์ log เก่าเมื่อไม่มีการเปลี่ยนแปลงเพิ่มเติม
                 delete_old_log_file_if_unchanged(log_file_path, last_position)
 
 if __name__ == "__main__":
