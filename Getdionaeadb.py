@@ -1,107 +1,74 @@
-import os
 import time
-from collections import defaultdict
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler
+import logging
 
-# ฟังก์ชั่นในการอ่าน log จากไฟล์ text
-def read_log_file(file_path, last_position):
-    try:
-        with open(file_path, 'r') as file:
-            file.seek(last_position)
-            lines = file.readlines()
-            last_position = file.tell()
-            return lines, last_position
-    except FileNotFoundError:
-        print(f"Error: The file at {file_path} was not found.")
-        return [], last_position
-    except Exception as e:
-        print(f"An error occurred while reading the file: {e}")
-        return [], last_position
+# ตั้งค่า logging
+logging.basicConfig(filename='DBcowrie.log', level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
 
-# ฟังก์ชั่นในการแยก log ตามปี เดือน และวัน
-def split_logs_by_year_month_and_day(log_lines):
-    logs_by_year_month_and_day = defaultdict(lambda: defaultdict(lambda: defaultdict(list)))
-    for line in log_lines:
-        if line.startswith('['):
-            date_str = line[1:9]  # ดึงวันที่จาก log
-            day = date_str[:2]  # ดึงเฉพาะวัน
-            month = date_str[2:4]  # ดึงเฉพาะเดือน
-            year = date_str[4:8]  # ดึงเฉพาะปี
-            logs_by_year_month_and_day[year][month][day].append(line)
-    return logs_by_year_month_and_day
+def process_line(line):
+    alert = ""
+    if line[0] == "[":
+        temp = line.split(' ')
+        if temp[2] == "log_sqlite" :
+            if temp[4] == "accepted" and temp[5] == "connection":
+                date = temp[0][1:]
+                date = date[4:] + "-" + date[2:][:-4] + "-" + date[:-6]
+                time_str = temp[1][:-1]
+                ips_temp = temp[9].split(':')
+                ipa_temp = temp[7].split(':')
+                if ips_temp[1] == "21":
+                    alert = "YELLOW!"
+                    protocol = "ftp"
+                elif ips_temp[1] == "42":
+                    alert = "YELLOW!"
+                    protocol = "nameserver"
+                elif ips_temp[1] == "53":
+                    alert = "YELLOW!"
+                    protocol = "DNS"
+                elif ips_temp[1] == "443":
+                    alert = "YELLOW!"
+                    protocol = "https"
+                elif ips_temp[1] == "80":
+                    alert = "YELLOW!"
+                    protocol = "http"
+                elif ips_temp[1] == "5060":
+                    alert = "YELLOW!"
+                    protocol = "sip"
+                elif ips_temp[1] == "1433":
+                    alert = "YELLOW!"
+                    protocol = "ms-sql-s"
+                elif ips_temp[1] == "1723":
+                    alert = "YELLOW!"
+                    protocol = "pptp"
+                elif ips_temp[1] == "9100":
+                    alert = "YELLOW!"
+                    protocol = "jetdirect"
+                # เพิ่มเงื่อนไขสำหรับ port อื่น ๆ ตามต้องการ
 
-# ฟังก์ชั่นในการบันทึก log แยกไฟล์ตามปี เดือน และวัน
-def save_logs_by_year_month_and_day(logs_by_year_month_and_day, output_directory):
-    if not os.path.exists(output_directory):
-        os.makedirs(output_directory)
-    for year, months_logs in logs_by_year_month_and_day.items():
-        year_directory = os.path.join(output_directory, year)
-        if not os.path.exists(year_directory):
-            os.makedirs(year_directory)
-        for month, days_logs in months_logs.items():
-            month_directory = os.path.join(year_directory, month)
-            if not os.path.exists(month_directory):
-                os.makedirs(month_directory)
-            for day, logs in days_logs.items():
-                output_file = os.path.join(month_directory, f'{day}{month}{year}.log')
-                with open(output_file, 'a') as file:  # เปลี่ยนโหมดเป็น 'a' สำหรับ append
-                    file.writelines(logs)
+                ip_of_attack = ipa_temp[0]
+                type_of_attack = "Someone try to connect server and get some data"
+                return f"Dionaea, {alert}, {date}, {time_str}, {ip_of_attack}, {protocol}, {type_of_attack}\n"
+    return None
 
-# ฟังก์ชั่นในการลบไฟล์ log เก่าหลังจากการแบ่งแยก log (เมื่อไม่มีข้อมูลใหม่)
-def delete_old_log_file_if_unchanged(file_path, last_position):
-    current_position = os.path.getsize(file_path)
-    if current_position == last_position:
-        try:
-            os.remove(file_path)
-            print(f"Successfully deleted old log file: {file_path}")
-        except OSError as e:
-            print(f"Error: {file_path} : {e.strerror}")
-
-# ตั้งค่า path ของไฟล์ log และ directory สำหรับบันทึกไฟล์ที่แยกตามปี เดือน และวัน
-log_file_path = '/opt/dionaea/var/log/dionaea/dionaea.log'
-output_directory = '/home/os/TestHoneypot/dionaealogmanagement'
-position_file_path = '/home/os/TestHoneypot/last_position.txt'
-
-# ฟังก์ชั่นในการอ่านตำแหน่งสุดท้ายที่อ่านไฟล์
-def read_last_position(position_file_path):
-    if os.path.exists(position_file_path):
-        with open(position_file_path, 'r') as file:
-            return int(file.read().strip())
-    return 0
-
-# ฟังก์ชั่นในการบันทึกตำแหน่งสุดท้ายที่อ่านไฟล์
-def save_last_position(position_file_path, last_position):
-    with open(position_file_path, 'w') as file:
-        file.write(str(last_position))
-
-# Handler สำหรับการเปลี่ยนแปลงของไฟล์ log
-class LogFileHandler(FileSystemEventHandler):
-    def on_modified(self, event):
-        if event.src_path == log_file_path:
-            print(f"{log_file_path} has been modified")
-            last_position = read_last_position(position_file_path)
-            log_lines, last_position = read_log_file(log_file_path, last_position)
-            if log_lines:
-                # แยก log ตามปี เดือน และวัน
-                logs_by_year_month_and_day = split_logs_by_year_month_and_day(log_lines)
-                # บันทึก log แยกไฟล์ตามปี เดือน และวัน
-                save_logs_by_year_month_and_day(logs_by_year_month_and_day, output_directory)
-                # บันทึกตำแหน่งสุดท้ายที่อ่านไฟล์
-                save_last_position(position_file_path, last_position)
-                # ลบไฟล์ log เก่าถ้าไม่มีการเปลี่ยนแปลงเพิ่มเติม
-                delete_old_log_file_if_unchanged(log_file_path, last_position)
-
-if __name__ == "__main__":
-    event_handler = LogFileHandler()
-    observer = Observer()
-    observer.schedule(event_handler, path=os.path.dirname(log_file_path), recursive=False)
-    observer.start()
-    print(f"Watching for changes in {log_file_path}")
-
-    try:
+try:
+    with open('/opt/dionaea/var/log/dionaea/dionaea.log') as file1, \
+         open('DBcowrie.txt', 'a') as file2, \
+         open('DBcowrie_backup.txt', 'a') as file3:
+        
+        count = 0
         while True:
-            time.sleep(1)
-    except KeyboardInterrupt:
-        observer.stop()
-    observer.join()
+            try:
+                for line in file1:
+                    data_log = process_line(line)
+                    if data_log:
+                        file2.write(data_log)
+                        file3.write(data_log)
+                        logging.info(data_log.strip())
+                time.sleep(20)
+            except Exception as e:
+                logging.error(f"An error occurred during processing: {str(e)}")
+            
+            print("loop", count)
+            count += 1
+except Exception as e:
+    logging.error(f"An error occurred: {str(e)}")
