@@ -19,9 +19,9 @@ def split_logs_by_year_month_and_day(log_lines):
     for line in log_lines:
         if line.startswith('['):
             date_str = line[1:9]  # ดึงวันที่จาก log
-            year = date_str[:4]  # ดึงเฉพาะปี
-            month = date_str[4:6]  # ดึงเฉพาะเดือน
-            day = date_str[6:8]  # ดึงเฉพาะวัน
+            day = date_str[:2]  # ดึงเฉพาะวัน
+            month = date_str[2:4]  # ดึงเฉพาะเดือน
+            year = date_str[4:8]  # ดึงเฉพาะปี
             logs_by_year_month_and_day[year][month][day].append(line)
     return logs_by_year_month_and_day
 
@@ -38,7 +38,7 @@ def save_logs_by_year_month_and_day(logs_by_year_month_and_day, output_directory
             if not os.path.exists(month_directory):
                 os.makedirs(month_directory)
             for day, logs in days_logs.items():
-                output_file = os.path.join(month_directory, f'{year}{month}{day}.log')
+                output_file = os.path.join(month_directory, f'{day}{month}{year}.log')
                 with open(output_file, 'a') as file:  # เปลี่ยนโหมดเป็น 'a' สำหรับ append
                     file.writelines(logs)
 
