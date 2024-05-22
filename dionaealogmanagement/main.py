@@ -23,14 +23,6 @@ def split_logs_by_month(log_lines):
             logs_by_month[year_month].append(line)
     return logs_by_month
 
-# ฟังก์ชั่นในการลบไฟล์เก่าใน directory (ไม่จำเป็นต้องใช้ในกรณีนี้)
-def clear_output_directory(output_directory):
-    if os.path.exists(output_directory):
-        for filename in os.listdir(output_directory):
-            file_path = os.path.join(output_directory, filename)
-            if os.path.isfile(file_path):
-                os.remove(file_path)
-
 # ฟังก์ชั่นในการบันทึก log แยกไฟล์ตามเดือน (เขียนต่อไฟล์เดิม)
 def save_logs_by_month(logs_by_month, output_directory):
     if not os.path.exists(output_directory):
@@ -39,6 +31,14 @@ def save_logs_by_month(logs_by_month, output_directory):
         output_file = os.path.join(output_directory, f'{year_month}.log')
         with open(output_file, 'a') as file:  # เปลี่ยนโหมดเป็น 'a' สำหรับ append
             file.writelines(logs)
+
+# ฟังก์ชั่นในการลบไฟล์ log เก่าหลังจากการแบ่งแยก log
+def delete_old_log_file(file_path):
+    try:
+        os.remove(file_path)
+        print(f"Successfully deleted old log file: {file_path}")
+    except OSError as e:
+        print(f"Error: {file_path} : {e.strerror}")
 
 # ตั้งค่า path ของไฟล์ log และ directory สำหรับบันทึกไฟล์ที่แยกตามเดือน
 log_file_path = '/opt/dionaea/var/log/dionaea/dionaea.log'
@@ -55,6 +55,9 @@ if log_lines:
     # บันทึก log แยกไฟล์ตามเดือน
     save_logs_by_month(logs_by_month, output_directory)
 
-    print("Logs have been successfully split and appended to monthly files.")
+    # ลบไฟล์ log เก่า
+    delete_old_log_file(log_file_path)
+
+    print("Logs have been successfully split, appended to monthly files, and the old log file has been deleted.")
 else:
     print("No logs to process.")
