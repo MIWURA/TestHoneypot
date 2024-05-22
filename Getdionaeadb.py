@@ -19,7 +19,7 @@ def process_line(line):
                 if ips_temp[1] == "21":
                     alert = "YELLOW!"
                     protocol = "ftp"
-                elif ips_temp[1] == "42":
+                elif ips_temp[1] == "53":
                     alert = "YELLOW!"
                     protocol = "nameserver"
                 # เพิ่มเงื่อนไขสำหรับ port อื่น ๆ ตามต้องการ
