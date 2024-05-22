@@ -51,15 +51,20 @@ def save_logs_by_year_month_and_day(logs_by_year_month_and_day, output_directory
                 with open(output_file, 'a') as file:  # เปลี่ยนโหมดเป็น 'a' สำหรับ append
                     file.writelines(logs)
 
-# ฟังก์ชั่นในการลบไฟล์ log เก่าหลังจากการแบ่งแยก log (เมื่อไม่มีข้อมูลใหม่)
-def delete_old_log_file_if_unchanged(file_path, last_position):
+# ฟังก์ชั่นในการเขียนไฟล์ว่างแทนการลบไฟล์ log เก่า
+def write_empty_log_file(file_path):
+    try:
+        with open(file_path, 'w') as file:
+            file.write("")
+        print(f"Successfully wrote empty log file: {file_path}")
+    except OSError as e:
+        print(f"Error: {file_path} : {e.strerror}")
+
+# ฟังก์ชั่นในการตรวจสอบว่าไฟล์ log มีการเปลี่ยนแปลงหรือไม่
+def check_log_file_unchanged(file_path, last_position):
+    time.sleep(5)  # เว้นระยะเวลา 5 วินาที
     current_position = os.path.getsize(file_path)
-    if current_position == last_position:
-        try:
-            os.remove(file_path)
-            print(f"Successfully deleted old log file: {file_path}")
-        except OSError as e:
-            print(f"Error: {file_path} : {e.strerror}")
+    return current_position == last_position
 
 # ตั้งค่า path ของไฟล์ log และ directory สำหรับบันทึกไฟล์ที่แยกตามปี เดือน และวัน
 log_file_path = '/opt/dionaea/var/log/dionaea/dionaea.log'
@@ -92,8 +97,11 @@ class LogFileHandler(FileSystemEventHandler):
                 save_logs_by_year_month_and_day(logs_by_year_month_and_day, output_directory)
                 # บันทึกตำแหน่งสุดท้ายที่อ่านไฟล์
                 save_last_position(position_file_path, last_position)
-                # ลบไฟล์ log เก่าเมื่อไม่มีการเปลี่ยนแปลงเพิ่มเติม
-                delete_old_log_file_if_unchanged(log_file_path, last_position)
+                # เขียนไฟล์ว่างแทนการลบไฟล์ log เก่า
+                write_empty_log_file(log_file_path)
+                # ตรวจสอบว่าไฟล์ log มีการเปลี่ยนแปลงหรือไม่
+                if check_log_file_unchanged(log_file_path, last_position):
+                    write_empty_log_file(log_file_path)
 
 if __name__ == "__main__":
     event_handler = LogFileHandler()
