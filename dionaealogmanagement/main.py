@@ -1,17 +1,23 @@
 import os
+import time
 from collections import defaultdict
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
 
 # ฟังก์ชั่นในการอ่าน log จากไฟล์ text
-def read_log_file(file_path):
+def read_log_file(file_path, last_position):
     try:
         with open(file_path, 'r') as file:
-            return file.readlines()
+            file.seek(last_position)
+            lines = file.readlines()
+            last_position = file.tell()
+            return lines, last_position
     except FileNotFoundError:
         print(f"Error: The file at {file_path} was not found.")
-        return []
+        return [], last_position
     except Exception as e:
         print(f"An error occurred while reading the file: {e}")
-        return []
+        return [], last_position
 
 # ฟังก์ชั่นในการแยก log ตามปี เดือน และวัน
 def split_logs_by_year_month_and_day(log_lines):
@@ -42,32 +48,60 @@ def save_logs_by_year_month_and_day(logs_by_year_month_and_day, output_directory
                 with open(output_file, 'a') as file:  # เปลี่ยนโหมดเป็น 'a' สำหรับ append
                     file.writelines(logs)
 
-# ฟังก์ชั่นในการลบไฟล์ log เก่าหลังจากการแบ่งแยก log
-def delete_old_log_file(file_path):
-    try:
-        os.remove(file_path)
-        print(f"Successfully deleted old log file: {file_path}")
-    except OSError as e:
-        print(f"Error: {file_path} : {e.strerror}")
+# ฟังก์ชั่นในการลบไฟล์ log เก่าหลังจากการแบ่งแยก log (เมื่อไม่มีข้อมูลใหม่)
+def delete_old_log_file_if_unchanged(file_path, last_position):
+    current_position = os.path.getsize(file_path)
+    if current_position == last_position:
+        try:
+            os.remove(file_path)
+            print(f"Successfully deleted old log file: {file_path}")
+        except OSError as e:
+            print(f"Error: {file_path} : {e.strerror}")
 
 # ตั้งค่า path ของไฟล์ log และ directory สำหรับบันทึกไฟล์ที่แยกตามปี เดือน และวัน
 log_file_path = '/opt/dionaea/var/log/dionaea/dionaea.log'
 output_directory = '/home/os/TestHoneypot/dionaealogmanagement'
+position_file_path = '/home/os/TestHoneypot/last_position.txt'
 
-# อ่าน log จากไฟล์
-log_lines = read_log_file(log_file_path)
+# ฟังก์ชั่นในการอ่านตำแหน่งสุดท้ายที่อ่านไฟล์
+def read_last_position(position_file_path):
+    if os.path.exists(position_file_path):
+        with open(position_file_path, 'r') as file:
+            return int(file.read().strip())
+    return 0
 
-# ตรวจสอบว่ามี log ให้อ่านหรือไม่
-if log_lines:
-    # แยก log ตามปี เดือน และวัน
-    logs_by_year_month_and_day = split_logs_by_year_month_and_day(log_lines)
+# ฟังก์ชั่นในการบันทึกตำแหน่งสุดท้ายที่อ่านไฟล์
+def save_last_position(position_file_path, last_position):
+    with open(position_file_path, 'w') as file:
+        file.write(str(last_position))
 
-    # บันทึก log แยกไฟล์ตามปี เดือน และวัน
-    save_logs_by_year_month_and_day(logs_by_year_month_and_day, output_directory)
+# Handler สำหรับการเปลี่ยนแปลงของไฟล์ log
+class LogFileHandler(FileSystemEventHandler):
+    def on_modified(self, event):
+        if event.src_path == log_file_path:
+            print(f"{log_file_path} has been modified")
+            last_position = read_last_position(position_file_path)
+            log_lines, last_position = read_log_file(log_file_path, last_position)
+            if log_lines:
+                # แยก log ตามปี เดือน และวัน
+                logs_by_year_month_and_day = split_logs_by_year_month_and_day(log_lines)
+                # บันทึก log แยกไฟล์ตามปี เดือน และวัน
+                save_logs_by_year_month_and_day(logs_by_year_month_and_day, output_directory)
+                # บันทึกตำแหน่งสุดท้ายที่อ่านไฟล์
+                save_last_position(position_file_path, last_position)
+                # ลบไฟล์ log เก่าถ้าไม่มีการเปลี่ยนแปลงเพิ่มเติม
+                delete_old_log_file_if_unchanged(log_file_path, last_position)
 
-    # ลบไฟล์ log เก่า
-    delete_old_log_file(log_file_path)
+if __name__ == "__main__":
+    event_handler = LogFileHandler()
+    observer = Observer()
+    observer.schedule(event_handler, path=os.path.dirname(log_file_path), recursive=False)
+    observer.start()
+    print(f"Watching for changes in {log_file_path}")
 
-    print("Logs have been successfully split, saved by year, month, and day, and the old log file has been deleted.")
-else:
-    print("No logs to process.")
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        observer.stop()
+    observer.join()
