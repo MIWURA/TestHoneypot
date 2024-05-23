@@ -71,20 +71,6 @@ $(document).ready(function () {
                 .catch((error) => {
                     console.error('Error:', error);
                 });
-
-            // Optional: submit the form if needed
-            // fetch('/Monitor', {
-            //     method: 'POST',
-            //     body: formData
-            // })
-            // .then(response => {
-            //     if (response.redirected) {
-            //         window.location.href = response.url;
-            //     }
-            // })
-            // .catch((error) => {
-            //     console.error('Error:', error);
-            // });
         });
 
         intableValueSelect.addEventListener('change', function () {
@@ -106,6 +92,7 @@ $(document).ready(function () {
                 });
         });
     });
+
 
 
 
