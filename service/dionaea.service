@@ -1,8 +1,9 @@
 [Unit]
 Description=dionaea
-After=network.target cowrie.service
+After=network.target 
 
 [Service]
+ExecStartPre=/bin/sleep 10
 ExecStart=/opt/dionaea/bin/dionaea
 User=root
 Group=root
@@ -10,3 +11,4 @@ Restart=always
 
 [Install]
 WantedBy=multi-user.target
+
