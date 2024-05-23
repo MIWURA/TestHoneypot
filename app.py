@@ -170,13 +170,20 @@ def update_intable_value():
 
 @app.route('/History', methods=['GET', 'POST'])
 def History():
-    selected_date = request.form.get('selected_date') if request.method == 'POST' else request.args.get('selected_date')
+    if request.method == 'POST':
+        selected_date = request.form.get('selected_date')
+        per_page = int(request.form.get('per_page', 10))
+    else:
+        selected_date = request.args.get('selected_date')
+        per_page = int(request.args.get('per_page', 10))
+    
     page = request.args.get('page', 1, type=int)
-    data = Get_db(selected_date, page)
+    data = Get_db(selected_date, page, per_page)
     
-    pagination = Pagination(page=page, total=data['total'], per_page=10, css_framework='bootstrap4')
+    pagination = Pagination(page=page, total=data['total'], per_page=per_page, css_framework='bootstrap4')
     
-    return render_template('History.html', data=data, pagination=pagination, selected_date=selected_date)
+    return render_template('History.html', data=data, pagination=pagination, selected_date=selected_date, per_page=per_page)
+
 
 
 

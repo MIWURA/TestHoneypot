@@ -94,6 +94,7 @@ def Get_db(selected_date=None, page=1, per_page=10):
         return response_data
 
 
+
    
 def Get_ForDw(sort_by):
    with app.app_context():
