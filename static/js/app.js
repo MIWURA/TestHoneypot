@@ -4,7 +4,7 @@ $(document).ready(function () {
 
     ///setInterval(function() {
     ///    if (socket.connected) {
-     ///       console.log("Connected to server");
+    ///       console.log("Connected to server");
     ///    } else {
     ///        console.log("Not connected to server");
     ///    }
@@ -13,18 +13,18 @@ $(document).ready(function () {
     socket.on("updateResponse_data", function (msg) {
         //console.log("Response_data :: " + msg);
         var data = msg;
-    
+
         // ดึง tbody ของตาราง
         var tbody = document.getElementById("data-table-body");
-    
+
         // ลบข้อมูลเก่าทั้งหมดใน tbody   
         tbody.innerHTML = "";
-    
+
         // เพิ่มข้อมูลใหม่ลงใน tbody
-        data.data.forEach(function(rowData) {
+        data.data.forEach(function (rowData) {
             var row = document.createElement("tr");
-    
-            Object.values(rowData).forEach(function(cellData) {
+
+            Object.values(rowData).forEach(function (cellData) {
                 var cell = document.createElement("td");
 
                 // ตรวจสอบเงื่อนไขและเพิ่มคลาส CSS ตามเงื่อนไข
@@ -39,44 +39,54 @@ $(document).ready(function () {
                 cell.textContent = cellData;
                 row.appendChild(cell);
             });
-    
+
             tbody.appendChild(row);
         });
     });
 
-    document.getElementById('SORTBY').addEventListener('change', function() {
-        var sortby = this.value;
-        var intable_value_dropdown = document.getElementById('intable_value');
-    
-        // Clear existing options
-        intable_value_dropdown.innerHTML = '';
-    
-        // Add default option
-        var defaultOption = document.createElement('option');
-        defaultOption.text = '- Select -';
-        defaultOption.value = '';
-        intable_value_dropdown.add(defaultOption);
-    
-        // Populate options based on selected SORTBY value
-        if (sortby === 'Type') {
-            var options = ['Cowrie', 'Dionaea']; 
-            options.forEach(function(option) {
-                var newOption = document.createElement('option');
-                newOption.value = option;
-                newOption.textContent = option;
-                intable_value_dropdown.appendChild(newOption);
-            });
-        } else if (sortby === 'Alert') {
-            var options = ['RED!', 'YELLOW!', 'ORANGE!']; 
-            options.forEach(function(option) {
-                var newOption = document.createElement('option');
-                newOption.value = option;
-                newOption.textContent = option;
-                intable_value_dropdown.appendChild(newOption);
-            });
-        }
-        // Add more conditions for other SORTBY values if needed
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const sortBySelect = document.getElementById('SORTBY');
+        const intableValueSelect = document.getElementById('intable_value');
+
+        sortBySelect.addEventListener('change', function () {
+            const formData = new FormData();
+            formData.append('SORTBY', this.value);
+            formData.append('intable_value', intableValueSelect.value);
+
+            fetch('/Monitor', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    if (response.redirected) {
+                        window.location.href = response.url;
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        });
+
+        intableValueSelect.addEventListener('change', function () {
+            const formData = new FormData();
+            formData.append('SORTBY', sortBySelect.value);
+            formData.append('intable_value', this.value);
+
+            fetch('/Monitor', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    if (response.redirected) {
+                        window.location.href = response.url;
+                    }
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
+        });
     });
+
 
 
 

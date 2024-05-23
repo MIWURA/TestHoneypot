@@ -150,11 +150,10 @@ def submit_filter():
             thread = None  # ลบเธรดเก่าทิ้ง
         stop_event.clear()  # เซ็ต stop_event เป็น False เพื่อเตรียมสำหรับเธรดใหม่
         
-        
         thread = socketio.start_background_task(lambda: background_thread(sort_by, intable_value))
         print("Current thread Switch:", thread)
 
-    return redirect(url_for('Monitor'))
+    return '', 204  # ส่งกลับสถานะ 204 เพื่อบอกว่าไม่มีเนื้อหาและไม่ต้องรีเฟรชหน้า
     
 
 @app.route('/History')
