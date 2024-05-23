@@ -1,8 +1,10 @@
-from func import getDB
 import json
 import time
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from func import getDB
 
-import time
 
 counter = 0
 def respond_to_client():
@@ -20,5 +22,5 @@ def respond_to_client():
                 counter += 1
         time.sleep(0.5)
 
-      
+
 respond_to_client()
