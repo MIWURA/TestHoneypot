@@ -3,106 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>History</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-    {% extends 'home.html' %}
+    <title>Home</title>
     <style>
         .pagination {
-            display: flex;
-            justify-content: center;
-            padding-left: 0;
-            list-style: none;
-            border-radius: 0.25rem;
+            display: inline-block;
         }
 
-        .pagination li {
-            display: inline;
-        }
-
-        .pagination li a, .pagination li span {
-            position: relative;
-            display: block;
-            padding: 0.5rem 0.75rem;
-            margin-left: -1px;
-            line-height: 1.25;
-            color: #007bff;
-            background-color: #fff;
-            border: 1px solid #dee2e6;
-        }
-
-        .pagination li a:focus, .pagination li a:hover {
-            z-index: 2;
-            color: #0056b3;
+        .pagination a {
+            color: black;
+            float: left;
+            padding: 8px 16px;
             text-decoration: none;
-            background-color: #e9ecef;
-            border-color: #dee2e6;
         }
 
-        .pagination li:first-child a, .pagination li:first-child span {
-            margin-left: 0;
-            border-top-left-radius: 0.25rem;
-            border-bottom-left-radius: 0.25rem;
+        .pagination a.active {
+            background-color: #EEEEEE;
+            color: EEEEEE;
+            border-radius: 5px;
         }
 
-        .pagination li:last-child a, .pagination li:last-child span {
-            border-top-right-radius: 0.25rem;
-            border-bottom-right-radius: 0.25rem;
+        .pagination a:hover:not(.active) {
+            background-color: #EEEEEE;
+            border-radius: 5px;
         }
 
-        .pagination li.active a, .pagination li.active span {
+
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
             z-index: 1;
-            color: #fff;
-            background-color: #007bff;
-            border-color: #007bff;
+            top: 0;
+            left: 0;
+            background-color: #222831;
+            padding-top: 20px;
+        }
+
+        .sidebar a {
+            padding: 10px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #EEEEEE;
+            display: block;
+        }
+
+        .sidebar a:hover {
+            color: #EEEEEE;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 16px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+
+        }
+
+        th,
+        td {
+            border: 1px solid #EEEEEE;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #EEEEEE;
+        }
+
+        .red-cell {
+            color: red;
+        }
+
+        .yellow-cell {
+            color: rgb(237, 237, 1);
+        }
+
+        .orange-cell {
+            color: orange;
+        }
+
+        #cowrieForm {
+            width: 1100px;
+            margin: 40px auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        label {
+            font-size: 1.2em;
+            color: #2d2f31;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 1.2em;
+            background-color: #ededed;
+            /* เปลี่ยนสีพื้นหลังของ dropdown */
+        }
+
+        /* ปรับสไตล์ของตัวเลือกใน dropdown */
+        option {
+            font-size: 1.2em;
+            background-color: #ededed;
+            /* เปลี่ยนสีพื้นหลังของตัวเลือก */
+            color: #2d2f31;
         }
     </style>
 </head>
 <body>
-    {% block content %}
-    
-    <div class="container" id="content">
-        <h2 class="mt-5 mb-4">History</h2>
-
-        <form method="post" action="{{ url_for('History') }}">
-            <label for="selected_date">Select Date:</label>
-            <input type="date" id="selected_date" name="selected_date" value="{{ selected_date }}">
-            <button type="submit" class="btn btn-primary">Filter</button>
-        </form>
-
-        <table class="table table-bordered mt-4">
-            <thead>
-                <tr>
-                    <th>Type</th>
-                    <th>Alert</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>IP Attacker</th>
-                    <th>IP Server</th>
-                    <th>Protocol</th>
-                    <th>Comment</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in data['data'] %}
-                    <tr>
-                        <td>{{ item['type'] }}</td>
-                        <td>{{ item['alert'] }}</td>
-                        <td>{{ item['date'] }}</td>
-                        <td>{{ item['time'] }}</td>
-                        <td>{{ item['ip_attacker'] }}</td>
-                        <td>{{ item['ip_server'] }}</td>
-                        <td>{{ item['protocol'] }}</td>
-                        <td>{{ item['comment'] }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <div class="d-flex justify-content-center">
-            {{ pagination.links }}
-        </div>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <a href="/">Home</a>
+        <a href="/cowrie">Cowrie</a>
+        <a href="/dionaea">Dionaea</a>
+        <a href="/Monitor">Monitoring</a>
+        <a href="/History">History</a>
+        <!-- เพิ่ม tab ตามต้องการ -->
     </div>
-    
-    {% endblock %}
+
+    <!-- Content -->
+    <div class="content">
+        <h1>Honeypot For Home Network Security </h1>
+        <!-- แทนที่เนื้อหา tab ด้วย include ของ Flask Template -->
+        {% block content %}
+        {% endblock %}
+    </div>
 </body>
 </html>
