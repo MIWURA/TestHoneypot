@@ -63,12 +63,16 @@ def Get_SortDB(sort_by=None, intable_value=None):
         return response_data
 
 
-def Get_db():
-   with app.app_context():
+def Get_db(selected_date=None, page=1, per_page=10):
+    offset = (page - 1) * per_page
+    with app.app_context():
         with mysql.connection.cursor() as cur:
-            cur.execute("SELECT * FROM honeypot ORDER BY id DESC")
+            if selected_date:
+                cur.execute("SELECT * FROM honeypot WHERE date=%s ORDER BY id DESC LIMIT %s OFFSET %s", (selected_date, per_page, offset))
+            else:
+                cur.execute("SELECT * FROM honeypot ORDER BY id DESC LIMIT %s OFFSET %s", (per_page, offset))
             data = cur.fetchall()
-
+        
         response_data = {
             'data': [{
                 'type': item[1],  
@@ -83,6 +87,7 @@ def Get_db():
         }
 
         return response_data
+
    
 def Get_ForDw(sort_by):
    with app.app_context():

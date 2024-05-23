@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>History</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-    </script>
-    
     {% extends 'home.html' %}
 </head>
 <body>
@@ -14,20 +12,27 @@
     
     <div class="container" id="content">
         <h2 class="mt-5 mb-4">History</h2>
-        <table class="table table-bordered" >
+
+        <form method="post" action="{{ url_for('History') }}">
+            <label for="selected_date">Select Date:</label>
+            <input type="date" id="selected_date" name="selected_date" value="{{ selected_date }}">
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
+
+        <table class="table table-bordered mt-4">
             <thead>
                 <tr>
                     <th>Type</th>
                     <th>Alert</th>
-                    <th style="width: 10%;">Date</th>
-                    <th style="width: 10%;">Time</th>
-                    <th>IP_ATK</th>
-                    <th>IP_SERVER</th>
-                    <th>PROTOCOL</th>
-                    <th>COMMENT</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>IP Attacker</th>
+                    <th>IP Server</th>
+                    <th>Protocol</th>
+                    <th>Comment</th>
                 </tr>
             </thead>
-            <tbody id="data-table-body">
+            <tbody>
                 {% for item in data['data'] %}
                     <tr>
                         <td>{{ item['type'] }}</td>
@@ -42,25 +47,12 @@
                 {% endfor %}
             </tbody>
         </table>
-        
-    <!--		Start Pagination -->
-	<div class='pagination-container' >
-        <script type="text/javascript" src="{{ url_for('static', filename = 'js/pagination.js') }}"></script>
-		<nav>
-			<ul class="pagination">
-            
-                <li data-page="prev" >
-						<span>  <span class="sr-only">(current)</span></span>
-				</li>
-				<!--Here the JS Function Will Add the Rows -->
-                <li data-page="next" id="prev">
-				<span> > <span class="sr-only">(current)</span></span>
-				</li>
-			</ul>
-		</nav>
-	</div> <!-- 		End of Container -->
 
+        <div class="d-flex justify-content-center">
+            {{ pagination.links }}
+        </div>
     </div>
+    
     {% endblock %}
 </body>
 </html>

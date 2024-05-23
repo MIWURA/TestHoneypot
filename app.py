@@ -168,10 +168,17 @@ def update_intable_value():
 
     return jsonify(options)
 
-@app.route('/History')
+@app.route('/History', methods=['GET', 'POST'])
 def History():
-    data = Get_db()
-    return render_template('History.html',data=data) 
+    selected_date = request.form.get('selected_date')
+    page = request.args.get('page', 1, type=int)
+    data = Get_db(selected_date, page)
+    
+    pagination = Pagination(page=page, total=len(data['data']), per_page=10, css_framework='bootstrap4')
+    
+    return render_template('History.html', data=data, pagination=pagination, selected_date=selected_date)
+
+
 
 
 def respond_to_client():
