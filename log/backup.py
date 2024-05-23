@@ -30,5 +30,5 @@ def categorize_logs_by_date(file_path):
                 print(f"Error: {e}")
 
 # Usage
-file_path = '/home/os/TestHoneypot/log/DBcowrie_backup.txt'
+file_path = '/home/os/TestHoneypot/log/DBmypot_backup.txt'
 categorize_logs_by_date(file_path)
