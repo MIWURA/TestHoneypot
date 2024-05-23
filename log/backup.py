@@ -14,15 +14,14 @@ def categorize_logs_by_date(file_path):
                 date_str = parts[2]
                 date_obj = datetime.strptime(date_str, '%Y-%m-%d')
                 
-                # Create year, month, and day directories
+                # Create year and month directories
                 year_dir = os.path.join(base_directory, date_obj.strftime('%Y'))
                 month_dir = os.path.join(year_dir, date_obj.strftime('%m'))
-                day_dir = os.path.join(month_dir, date_obj.strftime('%d'))
                 
-                os.makedirs(day_dir, exist_ok=True)
+                os.makedirs(month_dir, exist_ok=True)
                 
                 # Write the log entry to the appropriate file
-                log_file_path = os.path.join(day_dir, 'log.txt')
+                log_file_path = os.path.join(month_dir, f'log_{date_obj.strftime("%d")}.txt')
                 with open(log_file_path, 'a') as log_file:
                     log_file.write(line)
             except Exception as e:
@@ -30,5 +29,5 @@ def categorize_logs_by_date(file_path):
                 print(f"Error: {e}")
 
 # Usage
-file_path = '/home/os/TestHoneypot/log/DBmypot_backup.txt'
+file_path = '//home/os/TestHoneypot/log/DBmypot_backup.txt'
 categorize_logs_by_date(file_path)
