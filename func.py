@@ -68,11 +68,15 @@ def Get_db(selected_date=None, page=1, per_page=10):
     with app.app_context():
         with mysql.connection.cursor() as cur:
             if selected_date:
+                cur.execute("SELECT COUNT(*) FROM honeypot WHERE date=%s", (selected_date,))
+                total = cur.fetchone()[0]
                 cur.execute("SELECT * FROM honeypot WHERE date=%s ORDER BY id DESC LIMIT %s OFFSET %s", (selected_date, per_page, offset))
             else:
+                cur.execute("SELECT COUNT(*) FROM honeypot")
+                total = cur.fetchone()[0]
                 cur.execute("SELECT * FROM honeypot ORDER BY id DESC LIMIT %s OFFSET %s", (per_page, offset))
             data = cur.fetchall()
-        
+
         response_data = {
             'data': [{
                 'type': item[1],  
@@ -83,10 +87,12 @@ def Get_db(selected_date=None, page=1, per_page=10):
                 'ip_server': item[6],
                 'protocol': item[7],
                 'comment': item[8],
-            } for item in data]
+            } for item in data],
+            'total': total
         }
 
         return response_data
+
 
    
 def Get_ForDw(sort_by):
