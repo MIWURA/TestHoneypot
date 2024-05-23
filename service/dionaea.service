@@ -1,6 +1,6 @@
 [Unit]
 Description=dionaea
-After=network.target 
+After=default.target
 
 [Service]
 ExecStartPre=/bin/sleep 10
