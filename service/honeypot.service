@@ -5,7 +5,7 @@ After=network.target dionaea.service
 [Service]
 User=root
 Group=root
-ExecStart=/path/to/honeypot/start/script.sh
+ExecStart=/home/os/TestHoneypot/service/honeypot.sh
 
 [Install]
 WantedBy=multi-user.target
