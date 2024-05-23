@@ -6,28 +6,27 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <title>Home</title>
     <style>
-        .pagination {
+        .vertical-pagination {
             display: inline-block;
         }
 
-        .pagination a {
+        .vertical-pagination a {
             color: black;
             float: left;
             padding: 8px 16px;
             text-decoration: none;
         }
 
-        .pagination a.active {
+        .vertical-pagination a.active {
             background-color: #EEEEEE;
             color: EEEEEE;
             border-radius: 5px;
         }
 
-        .pagination a:hover:not(.active) {
+        .vertical-pagination a:hover:not(.active) {
             background-color: #EEEEEE;
             border-radius: 5px;
         }
-
 
         .sidebar {
             height: 100%;
@@ -60,7 +59,6 @@
         table {
             width: 100%;
             border-collapse: collapse;
-
         }
 
         th,
