@@ -155,6 +155,18 @@ def submit_filter():
 
     return '', 204  # ส่งกลับสถานะ 204 เพื่อบอกว่าไม่มีเนื้อหาและไม่ต้องรีเฟรชหน้า
     
+@app.route('/update_intable_value', methods=['POST'])
+def update_intable_value():
+    sort_by = request.form['SORTBY']
+    
+    # Mockup data: replace with your logic to fetch options based on sort_by
+    options = []
+    if sort_by == 'Type':
+        options = [{'value': 'cowrie', 'text': 'Cowrie'}, {'value': 'dionaea', 'text': 'Dionaea'}]
+    elif sort_by == 'Alert':
+        options = [{'value': 'RED!', 'text': 'Red'}, {'value': 'YELLOW!', 'text': 'Yellow'}, {'value': 'ORANGE!', 'text': 'Orange'}]
+
+    return jsonify(options)
 
 @app.route('/History')
 def History():

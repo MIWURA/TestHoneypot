@@ -51,20 +51,40 @@ $(document).ready(function () {
         sortBySelect.addEventListener('change', function () {
             const formData = new FormData();
             formData.append('SORTBY', this.value);
-            formData.append('intable_value', intableValueSelect.value);
 
-            fetch('/Monitor', {
+            fetch('/update_intable_value', {
                 method: 'POST',
                 body: formData
             })
-                .then(response => {
-                    if (response.redirected) {
-                        window.location.href = response.url;
-                    }
+                .then(response => response.json())
+                .then(data => {
+                    // Clear the current options
+                    intableValueSelect.innerHTML = '';
+                    // Add new options
+                    data.forEach(item => {
+                        const option = document.createElement('option');
+                        option.value = item.value;
+                        option.textContent = item.text;
+                        intableValueSelect.appendChild(option);
+                    });
                 })
                 .catch((error) => {
                     console.error('Error:', error);
                 });
+
+            // Optional: submit the form if needed
+            // fetch('/Monitor', {
+            //     method: 'POST',
+            //     body: formData
+            // })
+            // .then(response => {
+            //     if (response.redirected) {
+            //         window.location.href = response.url;
+            //     }
+            // })
+            // .catch((error) => {
+            //     console.error('Error:', error);
+            // });
         });
 
         intableValueSelect.addEventListener('change', function () {
