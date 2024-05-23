@@ -6,6 +6,12 @@
     <title>History</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     {% extends 'home.html' %}
+    <style>
+        .pagination {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
 </head>
 <body>
     {% block content %}
