@@ -8,6 +8,7 @@ WorkingDirectory=/home/os/TestHoneypot
 StandardOutput=inherit
 StandardError=inherit
 Restart=always
+RestartSec=10
 User=os
 
 [Install]

@@ -1,4 +1,5 @@
 import subprocess
+import time
 
 # รัน reset.py ก่อน
 print("Running reset.py...")
@@ -21,3 +22,7 @@ print("Running Flask app.py...")
 subprocess.Popen(["python", "/home/os/TestHoneypot/app.py"])
 
 print("All scripts started.")
+
+# Loop to keep the script running
+while True:
+    time.sleep(60)
