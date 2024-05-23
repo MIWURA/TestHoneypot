@@ -28,6 +28,14 @@ def categorize_logs_by_date(file_path):
                 print(f"Error processing line: {line}")
                 print(f"Error: {e}")
 
+    # Remove the original file after processing
+    try:
+        os.remove(file_path)
+        print(f"Removed original file: {file_path}")
+    except Exception as e:
+        print(f"Error removing file: {file_path}")
+        print(f"Error: {e}")
+
 # Usage
-file_path = '//home/os/TestHoneypot/log/DBmypot_backup.txt'
+file_path = '/home/os/TestHoneypot/log/DBmypot_backup.txt'
 categorize_logs_by_date(file_path)
