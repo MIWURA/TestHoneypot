@@ -2,7 +2,7 @@ import time
 import logging
 
 # ตั้งค่า logging
-logging.basicConfig(filename='DBcowrie.log', level=logging.INFO,
+logging.basicConfig(filename='DBmypot.log', level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s')
 
 def process_line(line):
@@ -52,8 +52,8 @@ def process_line(line):
 
 try:
     with open('/opt/dionaea/var/log/dionaea/dionaea.log') as file1, \
-         open('DBcowrie.txt', 'a') as file2, \
-         open('DBcowrie_backup.txt', 'a') as file3:
+         open('DBmypot.txt', 'a') as file2, \
+         open('DBmypot_backup.txt', 'a') as file3:
         
         count = 0
         while True:
