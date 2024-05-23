@@ -1,11 +1,14 @@
 [Unit]
-Description=Honeypot wep Service
-After=network.target dionaea.service
+Description=TestHoneypot Service
+After=default.target
 
 [Service]
-User=root
-Group=root
-ExecStart=/home/os/TestHoneypot/service/honeypot.sh
+ExecStart=/usr/bin/python /home/os/TestHoneypot/service/main.py
+WorkingDirectory=/home/os/TestHoneypot
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=os
 
 [Install]
 WantedBy=multi-user.target
