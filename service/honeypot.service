@@ -1,0 +1,11 @@
+[Unit]
+Description=Honeypot wep Service
+After=network.target dionaea.service
+
+[Service]
+User=root
+Group=root
+ExecStart=/path/to/honeypot/start/script.sh
+
+[Install]
+WantedBy=multi-user.target

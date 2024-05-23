@@ -1,0 +1,12 @@
+[Unit]
+Description=dionaea
+After=network.target cowrie.service
+
+[Service]
+ExecStart=/opt/dionaea/bin/dionaea
+User=root
+Group=root
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
