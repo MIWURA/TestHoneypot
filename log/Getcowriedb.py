@@ -3,8 +3,8 @@ import time
 file1 = open('/home/cowrie/cowrie/var/log/cowrie/cowrie.log')
 count = 0
 while True:
-	file2 = open('log/DBmypot.txt','a')
-	file3 = open('log/DBmypot_backup.txt', 'a')
+	file2 = open('/home/os/TestHoneypot/log/DBmypot.txt','a')
+	file3 = open('/home/os/TestHoneypot/log/DBmypot_backup.txt', 'a')
 	for i in file1:
 		alert = ""
 		temp = i.split(' ')

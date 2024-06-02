@@ -52,8 +52,8 @@ def process_line(line):
 
 try:
     with open('/opt/dionaea/var/log/dionaea/dionaea.log') as file1, \
-         open('log/DBmypot.txt', 'a') as file2, \
-         open('log/DBmypot_backup.txt', 'a') as file3:
+         open('/home/os/TestHoneypot/log/DBmypot.txt', 'a') as file2, \
+         open('/home/os/TestHoneypot/log/DBmypot_backup.txt', 'a') as file3:
         
         count = 0
         while True:
