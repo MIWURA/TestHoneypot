@@ -10,7 +10,7 @@ counter = 0
 def respond_to_client():
     while True:
         global counter
-        with open("DBmypot.txt", "r+") as f:
+        with open("/home/os/TestHoneypot/log/DBmypot.txt", "r+") as f:
             log_lines = f.readlines()
             f.seek(0)
             f.truncate()
