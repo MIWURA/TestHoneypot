@@ -6,6 +6,10 @@ print("Running reset.py...")
 subprocess.run(["python", "/home/os/TestHoneypot/log/reset.py"])
 
 # รัน Getcowriedb.py ใน background
+print("Running backup.py...")
+subprocess.Popen(["python", "/home/os/TestHoneypot/log/backup.py"])
+
+# รัน Getcowriedb.py ใน background
 print("Running Getcowriedb.py...")
 subprocess.Popen(["python", "/home/os/TestHoneypot/log/Getcowriedb.py"])
 
