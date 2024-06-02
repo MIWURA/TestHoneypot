@@ -52,8 +52,8 @@ def process_line(line):
 
 try:
     with open('/opt/dionaea/var/log/dionaea/dionaea.log') as file1, \
-         open('DBmypot.txt', 'a') as file2, \
-         open('DBmypot_backup.txt', 'a') as file3:
+         open('log/DBmypot.txt', 'a') as file2, \
+         open('log/DBmypot_backup.txt', 'a') as file3:
         
         count = 0
         while True:
@@ -63,12 +63,13 @@ try:
                     if data_log:
                         file2.write(data_log)
                         file3.write(data_log)
-                        logging.info(data_log.strip())
+#                        logging.info(data_log.strip())
+                        count += 1
                 time.sleep(20)
             except Exception as e:
-                logging.error(f"An error occurred during processing: {str(e)}")
+#                logging.error(f"An error occurred during processing: {str(e)}")
             
-            print("loop", count)
-            count += 1
+                print("loop", count)
+            
 except Exception as e:
     logging.error(f"An error occurred: {str(e)}")
