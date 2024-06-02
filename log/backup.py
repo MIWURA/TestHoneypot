@@ -3,7 +3,7 @@ from datetime import datetime
 
 def categorize_logs_by_date(file_path):
     # Create the base directory for categorized logs
-    base_directory = "backup"
+    base_directory = "/home/os/TestHoneypot/log/backup"
     os.makedirs(base_directory, exist_ok=True)
     
     with open(file_path, 'r') as file:
