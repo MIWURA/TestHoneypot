@@ -1,5 +1,3 @@
-# app.py
-
 from flask import Flask, g, redirect, render_template, request, jsonify, make_response, url_for,Response
 from flask_socketio import SocketIO, emit
 import sqlite3
@@ -79,15 +77,27 @@ def show_pie_chart():
     data = get_datadionaea()
     labels = [x[0] for x in data]
     sizes = [x[1] for x in data]
+    colors = plt.cm.Paired(range(len(labels)))  # ใช้ color map สำหรับสีสัน
 
     # สร้าง pie chart
     fig, ax = plt.subplots()
-    ax.pie(sizes, labels=labels, autopct='%1.1f%%', shadow=True, startangle=90)
-    ax.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+    wedges, texts, autotexts = ax.pie(sizes, labels=labels, autopct='%1.1f%%', shadow=True, startangle=90, colors=colors)
+    ax.axis('equal')
+
+    # ปรับการแสดงผลของ label และ autolabel ให้สวยงามขึ้น
+    for text in texts:
+        text.set_fontsize(12)
+    for autotext in autotexts:
+        autotext.set_fontsize(12)
+        autotext.set_color('white')
+        autotext.set_weight('bold')
+
+    # เพิ่ม legend
+    ax.legend(wedges, labels, title="Protocols", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1))
 
     # บันทึก pie chart เป็น PNG ใน memory
     img = io.BytesIO()
-    plt.savefig(img, format='png')
+    plt.savefig(img, format='png', bbox_inches='tight')
     plt.close()
     img.seek(0)
 
