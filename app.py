@@ -89,7 +89,7 @@ def show_lollipop_chart():
     ax.set_yticks(y_pos)
     ax.set_yticklabels(labels)
     ax.set_xlabel('Count')
-    ax.set_title('Protocol Distribution')
+    ax.set_title('Protocol')
 
     # บันทึก Lollipop chart เป็น PNG ใน memory
     img = io.BytesIO()
