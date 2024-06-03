@@ -81,16 +81,20 @@ def show_pie_chart():
 
     # สร้าง pie chart
     fig, ax = plt.subplots()
-    wedges, texts, autotexts = ax.pie(sizes, labels=labels, autopct='%1.1f%%', shadow=True, startangle=90, colors=colors)
+    wedges, texts, autotexts = ax.pie(sizes, labels=labels, autopct='%1.1f%%', shadow=True, startangle=90, colors=colors, pctdistance=0.85)
     ax.axis('equal')
 
     # ปรับการแสดงผลของ label และ autolabel ให้สวยงามขึ้น
     for text in texts:
         text.set_fontsize(12)
+        text.set_color('black')
     for autotext in autotexts:
-        autotext.set_fontsize(12)
+        autotext.set_fontsize(10)
         autotext.set_color('white')
         autotext.set_weight('bold')
+
+    # เพิ่มระยะห่างระหว่างชิ้นส่วนของกราฟ
+    plt.setp(wedges, width=0.4)
 
     # เพิ่ม legend
     ax.legend(wedges, labels, title="Protocols", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1))
