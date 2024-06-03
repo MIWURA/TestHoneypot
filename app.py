@@ -11,6 +11,7 @@ from threading import Lock
 from func import *
 import matplotlib.pyplot as plt
 import io
+import numpy as np
 
 
 
@@ -73,27 +74,23 @@ def get_datadionaea():
     return data
 
 @app.route('/ShowtableDionaea', methods=['GET', 'POST'])  # ให้สามารถเข้าถึงได้ทั้ง GET และ POST
-def show_pie_chart():
+def show_lollipop_chart():
     data = get_datadionaea()
     labels = [x[0] for x in data]
     sizes = [x[1] for x in data]
-    colors = plt.cm.Paired(range(len(labels)))  # ใช้ color map สำหรับสีสัน
+    y_pos = np.arange(len(labels))  # ตำแหน่ง y ของแต่ละรายการ
 
-    # สร้าง pie chart โดยไม่มี labels
-    fig, ax = plt.subplots()
-    wedges, texts, autotexts = ax.pie(sizes, autopct='%1.1f%%', shadow=True, startangle=90, colors=colors)
-    ax.axis('equal')
+    # สร้าง Lollipop chart
+    fig, ax = plt.subplots(figsize=(10, 8))
+    ax.hlines(y=y_pos, xmin=0, xmax=sizes, color='skyblue')
+    ax.plot(sizes, y_pos, "o")
 
-    # ปรับการแสดงผลของ autolabel ให้สวยงามขึ้น
-    for autotext in autotexts:
-        autotext.set_fontsize(12)
-        autotext.set_color('white')
-        autotext.set_weight('bold')
+    ax.set_yticks(y_pos)
+    ax.set_yticklabels(labels)
+    ax.set_xlabel('Count')
+    ax.set_title('Protocol Distribution')
 
-    # เพิ่ม legend โดยใช้ labels ที่เรามี
-    ax.legend(wedges, labels, title="Protocols", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1))
-
-    # บันทึก pie chart เป็น PNG ใน memory
+    # บันทึก Lollipop chart เป็น PNG ใน memory
     img = io.BytesIO()
     plt.savefig(img, format='png', bbox_inches='tight')
     plt.close()
