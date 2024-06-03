@@ -45,8 +45,13 @@ $(document).ready(function () {
     });
 
     document.addEventListener('DOMContentLoaded', (event) => {
+        console.log('DOM fully loaded and parsed'); // ตรวจสอบว่า DOM ถูกโหลดแล้ว
+
         const sortBySelect = document.getElementById('SORTBY');
         const intableValueSelect = document.getElementById('intable_value');
+
+        console.log('SORTBY element:', sortBySelect); // ตรวจสอบว่า SORTBY ถูกดึงมาอย่างถูกต้อง
+        console.log('intable_value element:', intableValueSelect); // ตรวจสอบว่า intable_value ถูกดึงมาอย่างถูกต้อง
 
         sortBySelect.addEventListener('change', function () {
             console.log('SORTBY changed to:', this.value);
