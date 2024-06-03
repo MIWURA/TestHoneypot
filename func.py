@@ -63,7 +63,7 @@ def Get_SortDB(sort_by=None, intable_value=None):
         return response_data
 
 
-def Get_db(selected_date=None, page=1, per_page=10):
+def Get_db(selected_date=None, page=1, per_page=100):
     offset = (page - 1) * per_page
     with app.app_context():
         with mysql.connection.cursor() as cur:
