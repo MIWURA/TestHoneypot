@@ -9,7 +9,11 @@ def clear_file_content(file_path):
         print(f"An error occurred: {e}")
 
 # Specify the path to the file you want to clear
-file_path = '/home/os/TestHoneypot/log/DBmypot.txt'
+file_path_DBmypot = '/home/os/TestHoneypot/log/DBmypot.txt'
+file_path_DBcowrie = '/home/cowrie/cowrie/var/log/cowrie/cowrie.log'
+file_path_DBdionaea = '/opt/dionaea/var/log/dionaea/dionaea.log'
 
 # Call the function to clear the file content
-clear_file_content(file_path)
+clear_file_content(file_path_DBmypot)
+clear_file_content(file_path_DBcowrie)
+clear_file_content(file_path_DBdionaea)
