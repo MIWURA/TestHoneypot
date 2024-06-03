@@ -50,7 +50,7 @@ $(document).ready(function () {
 
         sortBySelect.addEventListener('change', function () {
             console.log('SORTBY changed to:', this.value);
-            
+
             const formData = new FormData();
             formData.append('SORTBY', this.value);
 
@@ -60,6 +60,7 @@ $(document).ready(function () {
             })
                 .then(response => response.json())
                 .then(data => {
+                    console.log('Received data:', data);  // Debugging output
                     // Clear the current options
                     intableValueSelect.innerHTML = '';
                     // Add new options
@@ -76,6 +77,8 @@ $(document).ready(function () {
         });
 
         intableValueSelect.addEventListener('change', function () {
+            console.log('intable_value changed to:', this.value);
+
             const formData = new FormData();
             formData.append('SORTBY', sortBySelect.value);
             formData.append('intable_value', this.value);
@@ -86,6 +89,7 @@ $(document).ready(function () {
             })
                 .then(response => {
                     if (response.redirected) {
+                        console.log('Redirecting to:', response.url);  // Debugging output
                         window.location.href = response.url;
                     }
                 })
