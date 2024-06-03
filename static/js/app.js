@@ -49,6 +49,8 @@ $(document).ready(function () {
         const intableValueSelect = document.getElementById('intable_value');
 
         sortBySelect.addEventListener('change', function () {
+            console.log('SORTBY changed to:', this.value);
+            
             const formData = new FormData();
             formData.append('SORTBY', this.value);
 
