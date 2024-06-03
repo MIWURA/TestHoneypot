@@ -79,7 +79,7 @@ def show_lollipop_chart():
     labels = [x[0] for x in data]
     sizes = [x[1] for x in data]
     y_pos = np.arange(len(labels))  # ตำแหน่ง y ของแต่ละรายการ
-    colors = plt.cm.Paired(range(len(labels)))  # ใช้ color map สำหรับสีสัน
+    colors = plt.cm.tab20(range(len(labels)))  # ใช้ color map ที่มีสีหลากหลาย
 
     # สร้าง Lollipop chart
     fig, ax = plt.subplots(figsize=(10, 8))
