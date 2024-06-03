@@ -178,10 +178,10 @@ def update_intable_value():
 def History():
     if request.method == 'POST':
         selected_date = request.form.get('selected_date')
-        per_page = int(request.form.get('per_page', 100))
+        per_page = int(request.form.get('per_page', 50))
     else:
         selected_date = request.args.get('selected_date')
-        per_page = int(request.args.get('per_page', 100))
+        per_page = int(request.args.get('per_page', 50))
     
     page = request.args.get('page', 1, type=int)
     data = Get_db(selected_date, page, per_page)
