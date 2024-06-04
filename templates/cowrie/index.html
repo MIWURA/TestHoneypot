@@ -32,9 +32,10 @@
                     return; // ออกจากฟังก์ชันหากข้อมูลที่ได้รับไม่ใช่ array
                 }
 
-                const xValues = data.map(item => item.value);
-                const shortxValues = data.map(item => item.value.slice(0, 10));
-                const yValues = data.map(item => item.count);
+                // แปลงค่าที่จะนำไปใช้ใน Plotly ให้เป็น string
+                const xValues = data.map(item => item.value.toString());
+                const shortxValues = data.map(item => item.value.toString().slice(0, 10));
+                const yValues = data.map(item => item.count.toString());
 
                 const trace = {
                     x: shortxValues,
