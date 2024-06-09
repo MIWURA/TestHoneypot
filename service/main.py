@@ -1,10 +1,10 @@
 import subprocess
 import time
 import os
+import pwd
 
 # ดึงค่า username ของผู้ใช้ปัจจุบัน
-username = os.getlogin()
-
+username = os.getenv('USER') or pwd.getpwuid(os.getuid()).pw_name
 
 # รัน reset.py ก่อน
 print("Running reset.py...")
