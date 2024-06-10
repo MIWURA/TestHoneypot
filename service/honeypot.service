@@ -9,7 +9,7 @@ StandardOutput=inherit
 StandardError=inherit
 Restart=always
 RestartSec=10
-User=os
+User=root
 
 [Install]
 WantedBy=multi-user.target
