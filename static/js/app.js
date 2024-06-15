@@ -53,8 +53,8 @@ var style = document.createElement('style');
 style.innerHTML = `
     .circle {
         display: inline-block;
-        width: 10px;
-        height: 10px;
+        width: 15px;
+        height: 15px;
         border-radius: 50%;
         margin-left: 5px;
     }
