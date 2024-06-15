@@ -4,8 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet"> <!-- เพิ่ม Font Awesome -->
     <title>Home</title>
     <style>
+        .sidebar {
+            height: 100%; /* Full-height */
+            width: 250px; /* Width of the sidebar */
+            position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+            top: 56px; /* Height of the navbar */
+            left: 0;
+            background-color: #f8f9fa; /* Light background color */
+            padding-top: 20px;
+        }
+
+        .sidebar a {
+            padding: 15px 8px 15px 16px;
+            text-decoration: none;
+            font-size: 18px;
+            color: #333;
+            display: block;
+        }
+
+        .sidebar a:hover {
+            color: #007bff; /* Blue on hover */
+        }
+
+        .content {
+            margin-left: 260px; /* Same as the width of the sidebar */
+            padding: 20px;
+            padding-top: 76px; /* Additional padding for navbar */
+        }
+
         .navbar {
             position: fixed;
             width: 100%;
@@ -21,11 +50,6 @@
         .nav-link {
             font-size: 1.2rem;
         }
-
-        .content {
-            margin-top: 100px; /* เพิ่ม padding ให้มีพื้นที่พอสำหรับ navbar */
-            padding: 20px;
-        }
     </style>
 </head>
 
@@ -33,31 +57,41 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Honeypot For Home Network Security</a>
+            <a class="navbar-brand" href="#"><i class="fas fa-shield-alt"></i> Honeypot For Home Network Security</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/">Home</a>
+                        <a class="nav-link" href="/"><i class="fas fa-home"></i> Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/cowrie">Cowrie</a>
+                        <a class="nav-link" href="/cowrie"><i class="fas fa-bug"></i> Cowrie</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/dionaea">Dionaea</a>
+                        <a class="nav-link" href="/dionaea"><i class="fas fa-spider"></i> Dionaea</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/Monitor">Monitoring</a>
+                        <a class="nav-link" href="/Monitor"><i class="fas fa-tachometer-alt"></i> Monitoring</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/History">History</a>
+                        <a class="nav-link" href="/History"><i class="fas fa-history"></i> History</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <a href="/">Home</a>
+        <a href="/cowrie">Cowrie</a>
+        <a href="/dionaea">Dionaea</a>
+        <a href="/Monitor">Monitoring</a>
+        <a href="/History">History</a>
+        <!-- เพิ่ม tab ตามต้องการ -->
+    </div>
 
     <!-- Content -->
     <div class="content">
