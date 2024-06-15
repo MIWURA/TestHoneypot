@@ -24,9 +24,6 @@ socket.on("updateResponse_data", function (msg) {
         Object.values(rowData).forEach(function (cellData) {
             var cell = document.createElement("td");
 
-            // เพิ่มข้อความใน cell
-            cell.textContent = cellData;
-
             // ตรวจสอบเงื่อนไขและเพิ่มวงกลมตามเงื่อนไข
             if (cellData === "RED!") {
                 var circle = document.createElement("span");
