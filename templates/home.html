@@ -6,39 +6,25 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <title>Home</title>
     <style>
-        .sidebar {
-            height: 100%; /* Full-height */
-            width: 250px; /* Width of the sidebar */
-            position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-            top: 56px; /* Height of the navbar */
-            left: 0;
-            background-color: #f8f9fa; /* Light background color */
-            padding-top: 20px;
-        }
-        
-        .sidebar a {
-            padding: 15px 8px 15px 16px;
-            text-decoration: none;
-            font-size: 18px;
-            color: #333;
-            display: block;
-        }
-        
-        .sidebar a:hover {
-            color: #007bff; /* Blue on hover */
-        }
-        
-        .content {
-            margin-left: 260px; /* Same as the width of the sidebar */
-            padding: 20px;
-            padding-top: 76px; /* Additional padding for navbar */
-        }
-        
         .navbar {
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
+            padding: 20px 10px;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+        }
+
+        .nav-link {
+            font-size: 1.2rem;
+        }
+
+        .content {
+            margin-top: 100px; /* เพิ่ม padding ให้มีพื้นที่พอสำหรับ navbar */
+            padding: 20px;
         }
     </style>
 </head>
@@ -72,8 +58,6 @@
             </div>
         </div>
     </nav>
-
-
 
     <!-- Content -->
     <div class="content">
