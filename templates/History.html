@@ -55,26 +55,6 @@
             background-color: #007bff;
             border-color: #007bff;
         }
-
-        .circle {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            margin-left: 5px;
-        }
-
-        .red-circle {
-            background-color: red;
-        }
-
-        .yellow-circle {
-            background-color: yellow;
-        }
-
-        .orange-circle {
-            background-color: orange;
-        }
     </style>
 </head>
 <body>
@@ -104,30 +84,7 @@
                     <th>Comment</th>
                 </tr>
             </thead>
-            <tbody id="data-table-body">
-                {% for item in data['data'] %}
-                    <tr>
-                        <td>{{ item['type'] }}</td>
-                        <td>
-                            {% if item['alert'] == "RED" %}
-                                <span class="circle red-circle"></span>
-                            {% elif item['alert'] == "YELLOW" %}
-                                <span class="circle yellow-circle"></span>
-                            {% elif item['alert'] == "ORANGE" %}
-                                <span class="circle orange-circle"></span>
-                            {% else %}
-                                {{ item['alert'] }}
-                            {% endif %}
-                        </td>
-                        <td>{{ item['date'] }}</td>
-                        <td>{{ item['time'] }}</td>
-                        <td>{{ item['ip_attacker'] }}</td>
-                        <td>{{ item['ip_server'] }}</td>
-                        <td>{{ item['protocol'] }}</td>
-                        <td>{{ item['comment'] }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
+            <tbody id="data-table-body"></tbody>
         </table>
 
         <div class="d-flex justify-content-center">
@@ -137,6 +94,8 @@
         </div>
     </div>
     
+    <script id="data-json" type="application/json">{{ data['data'] | tojson }}</script>
+    <script src="{{ url_for('static', filename='js/history.js') }}"></script>
     {% endblock %}
 </body>
 </html>
