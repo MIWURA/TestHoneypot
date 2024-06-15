@@ -1,14 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <!-- เพิ่ม Font Awesome -->
-    <title>Home</title>
+    <title>History</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    {% extends 'home.html' %}
     <style>
+        .horizontal-pagination {
+            display: flex;
+            justify-content: center;
+            padding-left: 0;
+            list-style: none;
+            border-radius: 0.25rem;
+        }
+
+        .horizontal-pagination li {
+            display: inline;
+        }
+
+        .horizontal-pagination li a, .horizontal-pagination li span {
+            position: relative;
+            display: block;
+            padding: 0.5rem 0.75rem;
+            margin-left: -1px;
+            line-height: 1.25;
+            color: #007bff;
+            background-color: #fff;
+            border: 1px solid #dee2e6;
+        }
+
+        .horizontal-pagination li a:focus, .horizontal-pagination li a:hover {
+            z-index: 2;
+            color: #0056b3;
+            text-decoration: none;
+            background-color: #e9ecef;
+            border-color: #dee2e6;
+        }
+
+        .horizontal-pagination li:first-child a, .horizontal-pagination li:first-child span {
+            margin-left: 0;
+            border-top-left-radius: 0.25rem;
+            border-bottom-left-radius: 0.25rem;
+        }
+
+        .horizontal-pagination li:last-child a, .horizontal-pagination li:last-child span {
+            border-top-right-radius: 0.25rem;
+            border-bottom-right-radius: 0.25rem;
+        }
+
+        .horizontal-pagination li.active a, .horizontal-pagination li.active span {
+            z-index: 1;
+            color: #fff;
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
         .circle {
             display: inline-block;
             width: 10px;
@@ -29,106 +76,73 @@
             background-color: orange;
         }
 
-        .sidebar {
-            height: 100%;
-            /* Full-height */
-            width: 250px;
-            /* Width of the sidebar */
-            position: fixed;
-            /* Fixed Sidebar (stay in place on scroll) */
-            top: 56px;
-            /* Height of the navbar */
-            left: 0;
-            background-color: #6c757d;
-            /* Lighter grey background color */
-            padding-top: 20px;
-            color: white;
-            /* White text color */
-        }
-
-        .sidebar a {
-            padding: 15px 8px 15px 16px;
-            text-decoration: none;
-            font-size: 18px;
-            color: #ddd;
-            /* Light grey text color */
-            display: block;
-        }
-
-        .sidebar a:hover {
-            color: #fff;
-            /* White on hover */
-        }
-
-        .content {
-            margin-left: 260px;
-            /* Same as the width of the sidebar */
-            padding: 20px;
-            padding-top: 76px;
-            /* Additional padding for navbar */
-        }
-
-        .navbar {
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            padding: 20px 10px;
-        }
-
-        .navbar-brand {
-            font-size: 1.5rem;
-        }
-
-        .navbar-text img {
-            height: 30px;
-            /* Adjust the height as needed */
-            margin-left: 10px;
-        }
-
-        .form-group {
-            width: 100%;
-        }
-
-        .form-control-lg {
-            width: 100%;
-            font-size: 1.25rem;
-            padding: .5rem 1rem;
+        table thead th,
+        table tbody td {
+            text-align: center; /* Center-align text horizontally */
+            vertical-align: middle; /* Center-align text vertically */
         }
     </style>
 </head>
-
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#"><i class="fas fa-shield-alt"></i> Honeypot For Home Network Security</a>
-            <span class="navbar-text">
-                <img src="/static/picture/honeypot.png" alt="Honeypot Icon"> <!-- แทรกรูปภาพโถน้ำผึ้ง -->
-            </span>
+    {% block content %}
+    
+    <div class="container" id="content">
+        <h2 class="mt-5 mb-4">History</h2>
+
+        <form method="post" action="{{ url_for('History') }}">
+            <div class="form-group">
+                <label for="selected_date">Select Date:</label>
+                <input type="date" id="selected_date" name="selected_date" value="{{ selected_date }}" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </form>
+
+        <table class="table table-bordered mt-4">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Alert</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>IP Attacker</th>
+                    <th>IP Server</th>
+                    <th>Protocol</th>
+                    <th>Comment</th>
+                </tr>
+            </thead>
+            <tbody id="data-table-body">
+                {% for item in data['data'] %}
+                    <tr>
+                        <td>{{ item['type'] }}</td>
+                        <td>
+                            {% if item['alert'] == "RED!" %}
+                                <span class="circle red-circle"></span>
+                            {% elif item['alert'] == "YELLOW!" %}
+                                <span class="circle yellow-circle"></span>
+                            {% elif item['alert'] == "ORANGE!" %}
+                                <span class="circle orange-circle"></span>
+                            {% else %}
+                                {{ item['alert'] }}
+                            {% endif %}
+                        </td>
+                        <td>{{ item['date'] }}</td>
+                        <td>{{ item['time'] }}</td>
+                        <td>{{ item['ip_attacker'] }}</td>
+                        <td>{{ item['ip_server'] }}</td>
+                        <td>{{ item['protocol'] }}</td>
+                        <td>{{ item['comment'] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="d-flex justify-content-center">
+            <ul class="horizontal-pagination">
+                {{ pagination.links | safe }}
+            </ul>
         </div>
-    </nav>
-
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <a href="/"><i class="fas fa-home"></i> Home</a>
-        <a href="/cowrie"><i class="fas fa-bug"></i> Cowrie</a>
-        <a href="/dionaea"><i class="fas fa-spider"></i> Dionaea</a>
-        <a href="/Monitor"><i class="fas fa-tachometer-alt"></i> Monitoring</a>
-        <a href="/History"><i class="fas fa-history"></i> History</a>
-        <!-- เพิ่ม tab ตามต้องการ -->
     </div>
-
-    <!-- Content -->
-    <div class="content">
-        <!-- แทนที่เนื้อหา tab ด้วย include ของ Flask Template -->
-        {% block content %}
-        {% endblock %}
-    </div>
-
-    <!-- ลิงก์ไปยังไฟล์ JavaScript ของ Bootstrap และ jQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    {% endblock %}
 </body>
-
 </html>
