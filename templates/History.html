@@ -9,7 +9,7 @@
             <label for="selected_date">Select Date:</label>
             <input type="date" id="selected_date" name="selected_date" value="{{ selected_date }}" class="form-control">
         </div>
-        <button type="submit" class="btn btn-primary">Filter</button>
+        <button type="submit" class="btn btn-honey">Filter</button> <!-- ปุ่ม Filter สีสีน้ำผึ้ง -->
     </form>
 
     <table class="table table-bordered mt-4">
@@ -52,7 +52,7 @@
     </table>
 
     <div class="d-flex justify-content-center">
-        <ul class="pagination">
+        <ul class="pagination pagination-honey">
             {{ pagination.links | safe }}
         </ul>
     </div>
