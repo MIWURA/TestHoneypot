@@ -32,17 +32,16 @@
                     return; // ออกจากฟังก์ชันหากข้อมูลที่ได้รับไม่ใช่ array
                 }
 
-                // แปลงค่าที่จะนำไปใช้ใน Plotly ให้เป็น string
+                // แปลงค่าที่จะนำไปใช้ใน Plotly ให้เป็น string สำหรับแกน x และเป็นตัวเลขสำหรับแกน y
                 const xValues = data.map(item => item.value.toString());
-                const shortxValues = data.map(item => item.value.toString().slice(0, 10));
-                const yValues = data.map(item => item.count.toString());
+                const yValues = data.map(item => parseInt(item.count, 10));
 
                 const trace = {
-                    x: shortxValues,
+                    x: xValues,
                     y: yValues,
-                    text: xValues,
                     type: 'bar',
-                    hoverinfo: 'text+y+name+none',
+                    text: xValues,
+                    hoverinfo: 'text+y',
                     marker: {
                         color: '#76ABAE', // กำหนดสีของแท่งเป็นสีไข่อ่อน
                         opacity: 0.7 // กำหนดความโปร่งแสงของแท่ง (ระหว่าง 0 ถึง 1)
@@ -73,6 +72,5 @@
     // Initial fetch and plot
     fetchDataAndPlot();
 </script>
-
 
 {% endblock %}
