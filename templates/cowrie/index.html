@@ -1,31 +1,12 @@
 <!DOCTYPE html>
-<style>
-    .dropdown-container {
-        display: flex;
-        align-items: center;
-        margin-bottom: 20px;
-    }
 
-    .dropdown-container label {
-        margin-right: 10px;
-        font-weight: bold;
-    }
-
-    .dropdown-container select {
-        margin-right: 20px;
-        width: 450px;
-        /* ปรับความกว้างตามต้องการ */
-        padding: 5px 10px;
-        font-size: 16px;
-    }
-</style>
 {% extends 'home.html' %}
 
 {% block content %}
 <h2 class="mt-5 mb-4">Cowrie Index Page</h2>
-<form id="cowrieForm" action="/ShowtableCowrie" method="POST">
-    <label for="selection">Select an Option:</label>
-    <select name="selection" id="selection">
+<form id="cowrieForm" action="/ShowtableCowrie" method="POST" class="form-inline mb-3">
+    <label for="selection" class="mr-2">Select an Option:</label>
+    <select name="selection" id="selection" class="form-control">
         <option value="username">Top Username</option>
         <option value="password">Top Password</option>
     </select>
@@ -94,5 +75,20 @@
     fetchDataAndPlot();
 </script>
 
+<style>
+    .form-inline {
+        display: flex;
+        align-items: center;
+    }
+
+    .form-inline label {
+        margin-right: 10px;
+    }
+
+    .form-inline .form-control {
+        width: auto;
+        min-width: 200px;
+    }
+</style>
 
 {% endblock %}
