@@ -37,6 +37,8 @@ socket.on("updateResponse_data", function (msg) {
                 var circle = document.createElement("span");
                 circle.classList.add("circle", "orange-circle");
                 cell.appendChild(circle);
+            } else {
+                cell.textContent = cellData;
             }
 
             row.appendChild(cell);
