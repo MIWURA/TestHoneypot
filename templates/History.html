@@ -4,12 +4,12 @@
 <div class="container" id="content">
     <h2 class="mt-5 mb-4">History</h2>
 
-    <form method="post" action="{{ url_for('History') }}">
-        <div class="form-group">
-            <label for="selected_date">Select Date:</label>
+    <form method="post" action="{{ url_for('History') }}" class="form-inline">
+        <div class="form-group mb-2">
+            <label for="selected_date" class="sr-only">Select Date:</label>
             <input type="date" id="selected_date" name="selected_date" value="{{ selected_date }}" class="form-control">
         </div>
-        <button type="submit" class="btn btn-primary">Filter</button>
+        <button type="submit" class="btn btn-primary mb-2 ml-2">Filter</button> <!-- ปุ่ม Filter อยู่ข้างตัวเลือกวันที่ -->
     </form>
 
     <table class="table table-bordered mt-4">
@@ -52,7 +52,7 @@
     </table>
 
     <div class="d-flex justify-content-center">
-        <ul class="pagination">
+        <ul class="horizontal-pagination">
             {{ pagination.links | safe }}
         </ul>
     </div>
