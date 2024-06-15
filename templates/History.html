@@ -109,11 +109,11 @@
                     <tr>
                         <td>{{ item['type'] }}</td>
                         <td>
-                            {% if item['alert'] == "RED!" %}
+                            {% if item['alert'] == "RED" %}
                                 <span class="circle red-circle"></span>
-                            {% elif item['alert'] == "YELLOW!" %}
+                            {% elif item['alert'] == "YELLOW" %}
                                 <span class="circle yellow-circle"></span>
-                            {% elif item['alert'] == "ORANGE!" %}
+                            {% elif item['alert'] == "ORANGE" %}
                                 <span class="circle orange-circle"></span>
                             {% else %}
                                 {{ item['alert'] }}
