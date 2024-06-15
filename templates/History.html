@@ -1,296 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>History</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-    {% extends 'home.html' %}
-    <style>
-        .horizontal-pagination {
-            display: flex;
-            justify-content: center;
-            padding-left: 0;
-            list-style: none;
-            border-radius: 0.25rem;
-        }
+{% extends 'home.html' %}
 
-        .horizontal-pagination li {
-            display: inline;
-        }
+{% block content %}
+<div class="container" id="content">
+    <h2 class="mt-5 mb-4">History</h2>
 
-        .horizontal-pagination li a, .horizontal-pagination li span {
-            position: relative;
-            display: block;
-            padding: 0.5rem 0.75rem;
-            margin-left: -1px;
-            line-height: 1.25;
-            color: #007bff;
-            background-color: #fff;
-            border: 1px solid #dee2e6;
-        }
-
-        .horizontal-pagination li a:focus, .horizontal-pagination li a:hover {
-            z-index: 2;
-            color: #0056b3;
-            text-decoration: none;
-            background-color: #e9ecef;
-            border-color: #dee2e6;
-        }
-
-        .horizontal-pagination li:first-child a, .horizontal-pagination li:first-child span {
-            margin-left: 0;
-            border-top-left-radius: 0.25rem;
-            border-bottom-left-radius: 0.25rem;
-        }
-
-        .horizontal-pagination li:last-child a, .horizontal-pagination li:last-child span {
-            border-top-right-radius: 0.25rem;
-            border-bottom-right-radius: 0.25rem;
-        }
-
-        .horizontal-pagination li.active a, .horizontal-pagination li.active span {
-            z-index: 1;
-            color: #fff;
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-
-        .circle {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            margin-left: 5px;
-        }
-
-        .red-circle {
-            background-color: red;
-        }
-
-        .yellow-circle {
-            background-color: yellow;
-        }
-
-        .orange-circle {
-            background-color: orange;
-        }
-
-        table thead th,
-        table tbody td {
-            text-align: center; /* Center-align text horizontally */
-            vertical-align: middle; /* Center-align text vertically */
-        }
-    </style>
-</head>
-<body>
-    {% block content %}
-    
-    <div class="container" id="content">
-        <h2 class="mt-5 mb-4">History</h2>
-
-        <form method="post" action="{{ url_for('History') }}">
-            <div class="form-group">
-                <label for="selected_date">Select Date:</label>
-                <input type="date" id="selected_date" name="selected_date" value="{{ selected_date }}" class="form-control">
-            </div>
-            <button type="submit" class="btn btn-primary">Filter</button>
-        </form>
-
-        <table class="table table-bordered mt-4">
-            <thead>
-                <tr>
-                    <th>Type</th>
-                    <th>Alert</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>IP Attacker</th>
-                    <th>IP Server</th>
-                    <th>Protocol</th>
-                    <th>Comment</th>
-                </tr>
-            </thead>
-            <tbody id="data-table-body">
-                {% for item in data['data'] %}
-                    <tr>
-                        <td>{{ item['type'] }}</td>
-                        <td>
-                            {% if item['alert'] == "RED!" %}
-                                <span class="circle red-circle"></span>
-                            {% elif item['alert'] == "YELLOW!" %}
-                                <span class="circle yellow-circle"></span>
-                            {% elif item['alert'] == "ORANGE!" %}
-                                <span class="circle orange-circle"></span>
-                            {% else %}
-                                {{ item['alert'] }}
-                            {% endif %}
-                        </td>
-                        <td>{{ item['date'] }}</td>
-                        <td>{{ item['time'] }}</td>
-                        <td>{{ item['ip_attacker'] }}</td>
-                        <td>{{ item['ip_server'] }}</td>
-                        <td>{{ item['protocol'] }}</td>
-                        <td>{{ item['comment'] }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <div class="d-flex justify-content-center">
-            <ul class="horizontal-pagination">
-                {{ pagination.links | safe }}
-            </ul>
+    <form method="post" action="{{ url_for('History') }}">
+        <div class="form-group">
+            <label for="selected_date">Select Date:</label>
+            <input type="date" id="selected_date" name="selected_date" value="{{ selected_date }}" class="form-control">
         </div>
-    </div>
-    
-    {% endblock %}
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>History</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-    {% extends 'home.html' %}
-    <style>
-        .horizontal-pagination {
-            display: flex;
-            justify-content: center;
-            padding-left: 0;
-            list-style: none;
-            border-radius: 0.25rem;
-        }
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </form>
 
-        .horizontal-pagination li {
-            display: inline;
-        }
-
-        .horizontal-pagination li a, .horizontal-pagination li span {
-            position: relative;
-            display: block;
-            padding: 0.5rem 0.75rem;
-            margin-left: -1px;
-            line-height: 1.25;
-            color: #007bff;
-            background-color: #fff;
-            border: 1px solid #dee2e6;
-        }
-
-        .horizontal-pagination li a:focus, .horizontal-pagination li a:hover {
-            z-index: 2;
-            color: #0056b3;
-            text-decoration: none;
-            background-color: #e9ecef;
-            border-color: #dee2e6;
-        }
-
-        .horizontal-pagination li:first-child a, .horizontal-pagination li:first-child span {
-            margin-left: 0;
-            border-top-left-radius: 0.25rem;
-            border-bottom-left-radius: 0.25rem;
-        }
-
-        .horizontal-pagination li:last-child a, .horizontal-pagination li:last-child span {
-            border-top-right-radius: 0.25rem;
-            border-bottom-right-radius: 0.25rem;
-        }
-
-        .horizontal-pagination li.active a, .horizontal-pagination li.active span {
-            z-index: 1;
-            color: #fff;
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-
-        .circle {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            margin-left: 5px;
-        }
-
-        .red-circle {
-            background-color: red;
-        }
-
-        .yellow-circle {
-            background-color: yellow;
-        }
-
-        .orange-circle {
-            background-color: orange;
-        }
-
-        table thead th,
-        table tbody td {
-            text-align: center; /* Center-align text horizontally */
-            vertical-align: middle; /* Center-align text vertically */
-        }
-    </style>
-</head>
-<body>
-    {% block content %}
-    
-    <div class="container" id="content">
-        <h2 class="mt-5 mb-4">History</h2>
-
-        <form method="post" action="{{ url_for('History') }}">
-            <div class="form-group">
-                <label for="selected_date">Select Date:</label>
-                <input type="date" id="selected_date" name="selected_date" value="{{ selected_date }}" class="form-control">
-            </div>
-            <button type="submit" class="btn btn-primary">Filter</button>
-        </form>
-
-        <table class="table table-bordered mt-4">
-            <thead>
+    <table class="table table-bordered mt-4">
+        <thead>
+            <tr>
+                <th>Type</th>
+                <th>Alert</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>IP Attacker</th>
+                <th>IP Server</th>
+                <th>Protocol</th>
+                <th>Comment</th>
+            </tr>
+        </thead>
+        <tbody id="data-table-body">
+            {% for item in data['data'] %}
                 <tr>
-                    <th>Type</th>
-                    <th>Alert</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>IP Attacker</th>
-                    <th>IP Server</th>
-                    <th>Protocol</th>
-                    <th>Comment</th>
+                    <td>{{ item['type'] }}</td>
+                    <td>
+                        {% if item['alert'] == "RED!" %}
+                            <span class="circle red-circle"></span>
+                        {% elif item['alert'] == "YELLOW!" %}
+                            <span class="circle yellow-circle"></span>
+                        {% elif item['alert'] == "ORANGE!" %}
+                            <span class="circle orange-circle"></span>
+                        {% else %}
+                            {{ item['alert'] }}
+                        {% endif %}
+                    </td>
+                    <td>{{ item['date'] }}</td>
+                    <td>{{ item['time'] }}</td>
+                    <td>{{ item['ip_attacker'] }}</td>
+                    <td>{{ item['ip_server'] }}</td>
+                    <td>{{ item['protocol'] }}</td>
+                    <td>{{ item['comment'] }}</td>
                 </tr>
-            </thead>
-            <tbody id="data-table-body">
-                {% for item in data['data'] %}
-                    <tr>
-                        <td>{{ item['type'] }}</td>
-                        <td>
-                            {% if item['alert'] == "RED!" %}
-                                <span class="circle red-circle"></span>
-                            {% elif item['alert'] == "YELLOW!" %}
-                                <span class="circle yellow-circle"></span>
-                            {% elif item['alert'] == "ORANGE!" %}
-                                <span class="circle orange-circle"></span>
-                            {% else %}
-                                {{ item['alert'] }}
-                            {% endif %}
-                        </td>
-                        <td>{{ item['date'] }}</td>
-                        <td>{{ item['time'] }}</td>
-                        <td>{{ item['ip_attacker'] }}</td>
-                        <td>{{ item['ip_server'] }}</td>
-                        <td>{{ item['protocol'] }}</td>
-                        <td>{{ item['comment'] }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+            {% endfor %}
+        </tbody>
+    </table>
 
-        <div class="d-flex justify-content-center">
-            <ul class="horizontal-pagination">
-                {{ pagination.links | safe }}
-            </ul>
-        </div>
+    <div class="d-flex justify-content-center">
+        <ul class="horizontal-pagination">
+            {{ pagination.links | safe }}
+        </ul>
     </div>
-    
-    {% endblock %}
-</body>
-</html>
+</div>
+{% endblock %}

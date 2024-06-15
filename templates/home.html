@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
-    <!-- เพิ่ม Font Awesome -->
     <title>Home</title>
     <style>
         .circle {
@@ -31,19 +30,13 @@
 
         .sidebar {
             height: 100%;
-            /* Full-height */
             width: 250px;
-            /* Width of the sidebar */
             position: fixed;
-            /* Fixed Sidebar (stay in place on scroll) */
             top: 56px;
-            /* Height of the navbar */
             left: 0;
             background-color: #6c757d;
-            /* Lighter grey background color */
             padding-top: 20px;
             color: white;
-            /* White text color */
         }
 
         .sidebar a {
@@ -51,13 +44,11 @@
             text-decoration: none;
             font-size: 18px;
             color: #ddd;
-            /* Light grey text color */
             display: block;
         }
 
         .sidebar a:hover {
             color: #fff;
-            /* White on hover */
         }
 
         .navbar {
@@ -74,7 +65,6 @@
 
         .navbar-text img {
             height: 30px;
-            /* Adjust the height as needed */
             margin-left: 10px;
         }
 
@@ -87,6 +77,11 @@
             font-size: 1.25rem;
             padding: .5rem 1rem;
         }
+
+        .content {
+            margin-left: 250px; /* Same as the width of the sidebar */
+            padding: 20px;
+        }
     </style>
 </head>
 
@@ -96,7 +91,7 @@
         <div class="container-fluid">
             <a class="navbar-brand" href="#"><i class="fas fa-shield-alt"></i> Honeypot For Home Network Security</a>
             <span class="navbar-text">
-                <img src="/static/picture/honeypot.png" alt="Honeypot Icon"> <!-- แทรกรูปภาพโถน้ำผึ้ง -->
+                <img src="/static/picture/honeypot.png" alt="Honeypot Icon">
             </span>
         </div>
     </nav>
@@ -108,17 +103,15 @@
         <a href="/dionaea"><i class="fas fa-spider"></i> Dionaea</a>
         <a href="/Monitor"><i class="fas fa-tachometer-alt"></i> Monitoring</a>
         <a href="/History"><i class="fas fa-history"></i> History</a>
-        <!-- เพิ่ม tab ตามต้องการ -->
     </div>
 
     <!-- Content -->
     <div class="content">
-        <!-- แทนที่เนื้อหา tab ด้วย include ของ Flask Template -->
         {% block content %}
         {% endblock %}
     </div>
 
-    <!-- ลิงก์ไปยังไฟล์ JavaScript ของ Bootstrap และ jQuery -->
+    <!-- JavaScript dependencies -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
