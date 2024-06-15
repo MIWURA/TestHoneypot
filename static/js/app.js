@@ -9,7 +9,6 @@ var socket = io.connect();
 ///}, 3000);
 
 socket.on("updateResponse_data", function (msg) {
-    //console.log("Response_data :: " + msg);
     var data = msg;
 
     // ดึง tbody ของตาราง
@@ -25,22 +24,30 @@ socket.on("updateResponse_data", function (msg) {
         Object.values(rowData).forEach(function (cellData) {
             var cell = document.createElement("td");
 
-            // เพิ่มข้อความใน cell
-            cell.textContent = cellData;
-
-            // ตรวจสอบเงื่อนไขและเพิ่มวงกลมตามเงื่อนไข
+            // ตรวจสอบเงื่อนไขและเพิ่มคลาส CSS ตามเงื่อนไข
             if (cellData === "RED!") {
-                var circle = document.createElement("span");
-                circle.classList.add("circle", "red-circle");
-                cell.appendChild(circle);
+                var textNode = document.createTextNode(cellData.slice(0, -1));
+                var coloredSpan = document.createElement("span");
+                coloredSpan.textContent = cellData.slice(-1);
+                coloredSpan.classList.add("red-text");
+                cell.appendChild(textNode);
+                cell.appendChild(coloredSpan);
             } else if (cellData === "YELLOW!") {
-                var circle = document.createElement("span");
-                circle.classList.add("circle", "yellow-circle");
-                cell.appendChild(circle);
+                var textNode = document.createTextNode(cellData.slice(0, -1));
+                var coloredSpan = document.createElement("span");
+                coloredSpan.textContent = cellData.slice(-1);
+                coloredSpan.classList.add("yellow-text");
+                cell.appendChild(textNode);
+                cell.appendChild(coloredSpan);
             } else if (cellData === "ORANGE!") {
-                var circle = document.createElement("span");
-                circle.classList.add("circle", "orange-circle");
-                cell.appendChild(circle);
+                var textNode = document.createTextNode(cellData.slice(0, -1));
+                var coloredSpan = document.createElement("span");
+                coloredSpan.textContent = cellData.slice(-1);
+                coloredSpan.classList.add("orange-text");
+                cell.appendChild(textNode);
+                cell.appendChild(coloredSpan);
+            } else {
+                cell.textContent = cellData;
             }
 
             row.appendChild(cell);
@@ -53,24 +60,16 @@ socket.on("updateResponse_data", function (msg) {
 // CSS
 var style = document.createElement('style');
 style.innerHTML = `
-    .circle {
-        display: inline-block;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        margin-left: 5px;
+    .red-text {
+        color: red;
     }
 
-    .red-circle {
-        background-color: red;
+    .yellow-text {
+        color: yellow;
     }
 
-    .yellow-circle {
-        background-color: yellow;
-    }
-
-    .orange-circle {
-        background-color: orange;
+    .orange-text {
+        color: orange;
     }
 `;
 document.head.appendChild(style);
