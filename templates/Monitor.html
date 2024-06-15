@@ -7,6 +7,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script> <!-- เพิ่ม Bootstrap JavaScript -->
     <script type="text/javascript" charset="utf-8">
         document.addEventListener('DOMContentLoaded', (event) => {
             console.log('DOM fully loaded and parsed'); // ตรวจสอบว่า DOM ถูกโหลดแล้ว
@@ -81,22 +82,22 @@
     <div class="container" id="content">
         <h2 class="mt-5 mb-4">Real Time Table</h2>
 
-        <form id="sortForm">
-            <div class="dropdown">
+        <form id="sortForm" class="d-flex">
+            <div class="dropdown mr-3">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuSortBy" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     SORT BY
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuSortBy">
-                    <button class="dropdown-item" type="button" value="Type">Type</button>
-                    <button class="dropdown-item" type="button" value="Alert">Alert</button>
+                    <button class="dropdown-item" type="button" value="Type" onclick="setSortBy(this)">Type</button>
+                    <button class="dropdown-item" type="button" value="Alert" onclick="setSortBy(this)">Alert</button>
                 </div>
             </div>
 
-            <div class="dropdown mt-3">
+            <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuIntableValue" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Where
                 </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuIntableValue">
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuIntableValue" id="intableDropdown">
                     <!-- Options will be dynamically added here -->
                 </div>
             </div>
@@ -120,5 +121,12 @@
     </div>
     {% endblock %}
     <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+    <script>
+        function setSortBy(element) {
+            const sortBySelect = document.getElementById('SORTBY');
+            sortBySelect.value = element.getAttribute('value');
+            sortBySelect.dispatchEvent(new Event('change'));
+        }
+    </script>
 </body>
 </html>
