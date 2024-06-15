@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -112,6 +113,9 @@
         .pagination {
             display: flex;
             justify-content: center;
+            padding-left: 0;
+            list-style: none;
+            border-radius: 0.25rem;
         }
 
         .pagination li {
@@ -125,7 +129,7 @@
             padding: 0.5rem 0.75rem;
             margin-left: -1px;
             line-height: 1.25;
-            color: #FFB300; /* สีตัวอักษรเป็นสีน้ำผึ้ง */
+            color: #FFB300;
             background-color: #fff;
             border: 1px solid #dee2e6;
             text-decoration: none;
@@ -134,8 +138,8 @@
         .pagination li a:hover,
         .pagination li a:focus {
             z-index: 2;
-            color: #FFA000; /* สีตัวอักษรเป็นสีน้ำผึ้งเข้ม */
-            background-color: #ffe082; /* สีพื้นหลังเป็นสีเหลืองอ่อน */
+            color: #FFA000;
+            background-color: #ffe082;
             border-color: #dee2e6;
         }
 
@@ -156,8 +160,17 @@
         .pagination li.active span {
             z-index: 1;
             color: #fff;
-            background-color: #FFB300; /* สีพื้นหลังเป็นสีน้ำผึ้ง */
+            background-color: #FFB300;
             border-color: #FFB300;
+        }
+
+        .pagination li.disabled a,
+        .pagination li.disabled span {
+            color: #dee2e6;
+            pointer-events: none;
+            cursor: not-allowed;
+            background-color: #fff;
+            border-color: #dee2e6;
         }
 
         .btn-honey {
