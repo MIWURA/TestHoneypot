@@ -10,7 +10,7 @@
             height: 100%; /* Full-height */
             width: 250px; /* Width of the sidebar */
             position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-            top: 0;
+            top: 56px; /* Height of the navbar */
             left: 0;
             background-color: #f8f9fa; /* Light background color */
             padding-top: 20px;
@@ -31,11 +31,26 @@
         .content {
             margin-left: 260px; /* Same as the width of the sidebar */
             padding: 20px;
+            padding-top: 76px; /* Additional padding for navbar */
+        }
+        
+        .navbar {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
         }
     </style>
 </head>
 
 <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Honeypot For Home Network Security</a>
+        </div>
+    </nav>
+
     <!-- Sidebar -->
     <div class="sidebar">
         <a href="/">Home</a>
@@ -48,7 +63,6 @@
 
     <!-- Content -->
     <div class="content">
-        <h1>Honeypot For Home Network Security</h1>
         <!-- แทนที่เนื้อหา tab ด้วย include ของ Flask Template -->
         {% block content %}
         {% endblock %}
