@@ -82,19 +82,27 @@
         <h2 class="mt-5 mb-4">Real Time Table</h2>
 
         <form id="sortForm">
-            <label for="SORTBY">SORT BY :</label>
-            <select id="SORTBY" name="SORTBY">
-                <option value="Default">- Select -</option>
-                <option value="Type">Type</option>
-                <option value="Alert">Alert</option>
-            </select>
-            <label for="intable_value">Where :</label>
-            <select id="intable_value" name="intable_value">
-                <option value="Default">- Select -</option>
-            </select>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuSortBy" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    SORT BY
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuSortBy">
+                    <button class="dropdown-item" type="button" value="Type">Type</button>
+                    <button class="dropdown-item" type="button" value="Alert">Alert</button>
+                </div>
+            </div>
+
+            <div class="dropdown mt-3">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuIntableValue" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Where
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuIntableValue">
+                    <!-- Options will be dynamically added here -->
+                </div>
+            </div>
         </form>
         
-        <table class="table table-bordered">
+        <table class="table table-bordered mt-4">
             <thead>
                 <tr>
                     <th>Type</th>
@@ -111,5 +119,6 @@
         </table>        
     </div>
     {% endblock %}
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
 </body>
 </html>
