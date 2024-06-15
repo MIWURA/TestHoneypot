@@ -1,50 +1,49 @@
-<!DOCTYPE html>
-
 {% extends 'home.html' %}
 
 {% block content %}
-<h2 class="mt-5 mb-4">Cowrie Index Page</h2>
-<form id="cowrieForm" action="/ShowtableCowrie" method="POST" class="form-group">
-    <select name="selection" id="selection" class="form-control form-control-lg">
-        <option value="username">Top Username</option>
-        <option value="password">Top Password</option>
-    </select>
-</form>
+<div class="container" id="content">
+    <h2 class="mt-5 mb-4">Cowrie Index Page</h2>
+    <form id="cowrieForm" action="/ShowtableCowrie" method="POST" class="form-group">
+        <select name="selection" id="selection" class="form-control form-control-lg">
+            <option value="username">Top Username</option>
+            <option value="password">Top Password</option>
+        </select>
+    </form>
 
-<div id="chart"></div>
+    <div id="chart"></div>
 
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<script>
-    const formElement = document.getElementById("cowrieForm");
-    const selectElement = document.getElementById("selection");
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script>
+        const formElement = document.getElementById("cowrieForm");
+        const selectElement = document.getElementById("selection");
 
-    function fetchDataAndPlot() {
-        fetch('/ShowtableCowrie', {
-            method: 'POST',
-            body: new FormData(formElement)
-        })
+        function fetchDataAndPlot() {
+            fetch('/ShowtableCowrie', {
+                method: 'POST',
+                body: new FormData(formElement)
+            })
             .then(response => response.json())
             .then(data => {
-                console.log('Received data:', data); // แสดงข้อมูลที่ได้รับใน console
+                console.log('Received data:', data);
 
                 if (!Array.isArray(data)) {
                     console.error('Received data is not an array:', data);
-                    return; // ออกจากฟังก์ชันหากข้อมูลที่ได้รับไม่ใช่ array
+                    return;
                 }
 
-                // แปลงค่าที่จะนำไปใช้ใน Plotly ให้เป็น string สำหรับแกน x และเป็นตัวเลขสำหรับแกน y
                 const xValues = data.map(item => item.value.toString());
-                const yValues = data.map(item => parseInt(item.count, 10));
+                const shortxValues = data.map(item => item.value.toString().slice(0, 10));
+                const yValues = data.map(item => item.count.toString());
 
                 const trace = {
-                    x: xValues,
+                    x: shortxValues,
                     y: yValues,
-                    type: 'bar',
                     text: xValues,
-                    hoverinfo: 'text+y',
+                    type: 'bar',
+                    hoverinfo: 'text+y+name+none',
                     marker: {
-                        color: '#76ABAE', // กำหนดสีของแท่งเป็นสีไข่อ่อน
-                        opacity: 0.7 // กำหนดความโปร่งแสงของแท่ง (ระหว่าง 0 ถึง 1)
+                        color: '#76ABAE',
+                        opacity: 0.7
                     }
                 };
 
@@ -52,7 +51,7 @@
                     title: 'Top 10 ' + selectElement.value.charAt(0).toUpperCase() + selectElement.value.slice(1),
                     xaxis: {
                         title: selectElement.value.charAt(0).toUpperCase() + selectElement.value.slice(1),
-                        automargin: true // Allow automatic margin adjustment
+                        automargin: true
                     },
                     yaxis: {
                         title: 'Count'
@@ -60,17 +59,16 @@
                 };
 
                 Plotly.newPlot('chart', [trace], layout);
-
             })
             .catch(error => {
-                console.error('Error fetching data:', error); // แสดงข้อผิดพลาดในการเรียกข้อมูล
+                console.error('Error fetching data:', error);
             });
-    }
+        }
 
-    selectElement.addEventListener("change", fetchDataAndPlot);
+        selectElement.addEventListener("change", fetchDataAndPlot);
 
-    // Initial fetch and plot
-    fetchDataAndPlot();
-</script>
-
+        // Initial fetch and plot
+        fetchDataAndPlot();
+    </script>
+</div>
 {% endblock %}
