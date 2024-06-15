@@ -7,6 +7,26 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXlWH3ISbpAVl7C7a2QZ7drQuUYLbEQQi6tk8YLDY6iiqxZb6z0QhXuU8wbH" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+    <style>
+        .dropdown-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .dropdown-container label {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .dropdown-container select {
+            margin-right: 20px;
+            padding: 5px 10px;
+            font-size: 16px;
+        }
+    </style>
     <script type="text/javascript" charset="utf-8">
         document.addEventListener('DOMContentLoaded', (event) => {
             console.log('DOM fully loaded and parsed'); // ตรวจสอบว่า DOM ถูกโหลดแล้ว
@@ -81,15 +101,15 @@
     <div class="container" id="content">
         <h2 class="mt-5 mb-4">Real Time Table</h2>
 
-        <form id="sortForm">
+        <form id="sortForm" class="dropdown-container">
             <label for="SORTBY">SORT BY :</label>
-            <select id="SORTBY" name="SORTBY">
+            <select id="SORTBY" name="SORTBY" class="form-control">
                 <option value="Default">- Select -</option>
                 <option value="Type">Type</option>
                 <option value="Alert">Alert</option>
             </select>
             <label for="intable_value">Where :</label>
-            <select id="intable_value" name="intable_value">
+            <select id="intable_value" name="intable_value" class="form-control">
                 <option value="Default">- Select -</option>
             </select>
         </form>
