@@ -25,6 +25,9 @@ socket.on("updateResponse_data", function (msg) {
         Object.values(rowData).forEach(function (cellData) {
             var cell = document.createElement("td");
 
+            // เพิ่มข้อความใน cell
+            cell.textContent = cellData;
+
             // ตรวจสอบเงื่อนไขและเพิ่มวงกลมตามเงื่อนไข
             if (cellData === "RED!") {
                 var circle = document.createElement("span");
@@ -38,8 +41,6 @@ socket.on("updateResponse_data", function (msg) {
                 var circle = document.createElement("span");
                 circle.classList.add("circle", "orange-circle");
                 cell.appendChild(circle);
-            } else {
-                cell.textContent = cellData;
             }
 
             row.appendChild(cell);
@@ -57,7 +58,7 @@ style.innerHTML = `
         width: 10px;
         height: 10px;
         border-radius: 50%;
-        margin-right: 5px;
+        margin-left: 5px;
     }
 
     .red-circle {
