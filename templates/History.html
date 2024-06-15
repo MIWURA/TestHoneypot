@@ -55,6 +55,26 @@
             background-color: #007bff;
             border-color: #007bff;
         }
+
+        .circle {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-left: 5px;
+        }
+
+        .red-circle {
+            background-color: red;
+        }
+
+        .yellow-circle {
+            background-color: yellow;
+        }
+
+        .orange-circle {
+            background-color: orange;
+        }
     </style>
 </head>
 <body>
@@ -94,7 +114,7 @@
         </div>
     </div>
     
-    <script id="data-json" type="application/json">{{ data['data'] | tojson }}</script>
+    <script id="data-json" type="application/json">{{ data['results'] | tojson }}</script>
     <script src="{{ url_for('static', filename='js/history.js') }}"></script>
     {% endblock %}
 </body>

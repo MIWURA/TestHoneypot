@@ -76,6 +76,7 @@ def Get_db(selected_date=None, page=1, per_page=50):
                 total = cur.fetchone()[0]
                 cur.execute("SELECT * FROM honeypot ORDER BY id DESC LIMIT %s OFFSET %s", (per_page, offset))
             data = cur.fetchall()
+            return {'results': data, 'total': total}
 
         response_data = {
             'data': [{
