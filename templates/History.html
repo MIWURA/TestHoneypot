@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +20,8 @@
             display: inline;
         }
 
-        .horizontal-pagination li a, .horizontal-pagination li span {
+        .horizontal-pagination li a,
+        .horizontal-pagination li span {
             position: relative;
             display: block;
             padding: 0.5rem 0.75rem;
@@ -30,7 +32,8 @@
             border: 1px solid #dee2e6;
         }
 
-        .horizontal-pagination li a:focus, .horizontal-pagination li a:hover {
+        .horizontal-pagination li a:focus,
+        .horizontal-pagination li a:hover {
             z-index: 2;
             color: #0056b3;
             text-decoration: none;
@@ -38,18 +41,21 @@
             border-color: #dee2e6;
         }
 
-        .horizontal-pagination li:first-child a, .horizontal-pagination li:first-child span {
+        .horizontal-pagination li:first-child a,
+        .horizontal-pagination li:first-child span {
             margin-left: 0;
             border-top-left-radius: 0.25rem;
             border-bottom-left-radius: 0.25rem;
         }
 
-        .horizontal-pagination li:last-child a, .horizontal-pagination li:last-child span {
+        .horizontal-pagination li:last-child a,
+        .horizontal-pagination li:last-child span {
             border-top-right-radius: 0.25rem;
             border-bottom-right-radius: 0.25rem;
         }
 
-        .horizontal-pagination li.active a, .horizontal-pagination li.active span {
+        .horizontal-pagination li.active a,
+        .horizontal-pagination li.active span {
             z-index: 1;
             color: #fff;
             background-color: #007bff;
@@ -77,16 +83,18 @@
         }
     </style>
 </head>
+
 <body>
     {% block content %}
-    
+
     <div class="container" id="content">
         <h2 class="mt-5 mb-4">History</h2>
 
         <form method="post" action="{{ url_for('History') }}">
             <div class="form-group">
                 <label for="selected_date">Select Date:</label>
-                <input type="date" id="selected_date" name="selected_date" value="{{ selected_date }}" class="form-control">
+                <input type="date" id="selected_date" name="selected_date" value="{{ selected_date }}"
+                    class="form-control">
             </div>
             <button type="submit" class="btn btn-primary">Filter</button>
         </form>
@@ -106,26 +114,26 @@
             </thead>
             <tbody id="data-table-body">
                 {% for item in data['data'] %}
-                    <tr>
-                        <td>{{ item['type'] }}</td>
-                        <td>
-                            {% if item['alert'] == "RED!" %}
-                                <span class="circle red-circle"></span>
-                            {% elif item['alert'] == "YELLOW!" %}
-                                <span class="circle yellow-circle"></span>
-                            {% elif item['alert'] == "ORANGE!" %}
-                                <span class="circle orange-circle"></span>
-                            {% else %}
-                                {{ item['alert'] }}
-                            {% endif %}
-                        </td>
-                        <td>{{ item['date'] }}</td>
-                        <td>{{ item['time'] }}</td>
-                        <td>{{ item['ip_attacker'] }}</td>
-                        <td>{{ item['ip_server'] }}</td>
-                        <td>{{ item['protocol'] }}</td>
-                        <td>{{ item['comment'] }}</td>
-                    </tr>
+                <tr>
+                    <td>{{ item['type'] }}</td>
+                    <td>
+                        {% if item['alert'] == "RED!" %}
+                        <span class="circle red-circle"></span>
+                        {% elif item['alert'] == "YELLOW!" %}
+                        <span class="circle yellow-circle"></span>
+                        {% elif item['alert'] == "ORANGE!" %}
+                        <span class="circle orange-circle"></span>
+                        {% else %}
+                        {{ item['alert'] }}
+                        {% endif %}
+                    </td>
+                    <td>{{ item['date'] }}</td>
+                    <td>{{ item['time'] }}</td>
+                    <td>{{ item['ip_attacker'] }}</td>
+                    <td>{{ item['ip_server'] }}</td>
+                    <td>{{ item['protocol'] }}</td>
+                    <td>{{ item['comment'] }}</td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>
@@ -136,7 +144,8 @@
             </ul>
         </div>
     </div>
-    
+
     {% endblock %}
 </body>
+
 </html>
