@@ -3,134 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <title>Home</title>
     <style>
-        .vertical-pagination {
-            display: inline-block;
-        }
-
-        .vertical-pagination a {
-            color: black;
-            float: left;
-            padding: 8px 16px;
-            text-decoration: none;
-        }
-
-        .vertical-pagination a.active {
-            background-color: #EEEEEE;
-            color: EEEEEE;
-            border-radius: 5px;
-        }
-
-        .vertical-pagination a:hover:not(.active) {
-            background-color: #EEEEEE;
-            border-radius: 5px;
-        }
-
         .sidebar {
-            height: 100%;
-            width: 250px;
-            position: fixed;
-            z-index: 1;
+            height: 100%; /* Full-height */
+            width: 250px; /* Width of the sidebar */
+            position: fixed; /* Fixed Sidebar (stay in place on scroll) */
             top: 0;
             left: 0;
-            background-color: #222831;
+            background-color: #f8f9fa; /* Light background color */
             padding-top: 20px;
         }
-
+        
         .sidebar a {
-            padding: 10px;
+            padding: 15px 8px 15px 16px;
             text-decoration: none;
             font-size: 18px;
-            color: #EEEEEE;
+            color: #333;
             display: block;
         }
-
+        
         .sidebar a:hover {
-            color: #EEEEEE;
+            color: #007bff; /* Blue on hover */
         }
-
+        
         .content {
-            margin-left: 250px;
-            padding: 16px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th,
-        td {
-            border: 1px solid #EEEEEE;
-            padding: 8px;
-            text-align: center;
-        }
-
-        th {
-            background-color: #EEEEEE;
-        }
-
-        .red-cell {
-            color: red;
-        }
-
-        .yellow-cell {
-            color: rgb(237, 237, 1);
-        }
-
-        .orange-cell {
-            color: orange;
-        }
-
-        #cowrieForm {
-            width: 1100px;
-            margin: 40px auto;
-            background: #ffffff;
+            margin-left: 260px; /* Same as the width of the sidebar */
             padding: 20px;
-            border-radius: 5px;
-        }
-
-        label {
-            font-size: 1.2em;
-            color: #2d2f31;
-        }
-
-        select {
-            width: 100%;
-            padding: 10px;
-            margin-top: 8px;
-            margin-bottom: 20px;
-            border: none;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 1.2em;
-            background-color: #ededed;
-            /* เปลี่ยนสีพื้นหลังของ dropdown */
-        }
-
-        /* ปรับสไตล์ของตัวเลือกใน dropdown */
-        option {
-            font-size: 1.2em;
-            background-color: #ededed;
-            /* เปลี่ยนสีพื้นหลังของตัวเลือก */
-            color: #2d2f31;
-        }
-        body {
-            padding-top: 20px;
-        }
-        #chart {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 30px;
-        }
-        .chart-container {
-            width: 80%;
         }
     </style>
 </head>
+
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
@@ -144,10 +48,14 @@
 
     <!-- Content -->
     <div class="content">
-        <h1>Honeypot For Home Network Security </h1>
+        <h1>Honeypot For Home Network Security</h1>
         <!-- แทนที่เนื้อหา tab ด้วย include ของ Flask Template -->
         {% block content %}
         {% endblock %}
     </div>
+
+    <!-- ลิงก์ไปยังไฟล์ JavaScript ของ Bootstrap และ jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
