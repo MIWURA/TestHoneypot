@@ -192,34 +192,5 @@ def History():
 
 
 
-
-
-
-
-
-
-def respond_to_client():
-    while True:
-        global counter
-        with open("DBmypot.txt", "r+") as f:
-            lines = f.readlines()
-            if not lines or (len(lines) == 1 and lines[0].strip() == ''):
-                time.sleep(0.5)
-                continue
-            
-            for line in lines:
-                getDB(line)
-                print(line)
-                print("******************")
-                print(counter)
-                counter += 1
-                _data = json.dumps({"line": line, "counter": counter})
-                yield f"id: 1\ndata: {_data}\nevent: online\n\n"
-                
-            f.truncate(0) 
-
-
-
 if __name__ == '__main__':
-    respond_to_client()
     socketio.run(app,debug=True,host='0.0.0.0', port=5000)
