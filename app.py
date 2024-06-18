@@ -201,7 +201,7 @@ def History():
 def respond_to_client():
     while True:
         global counter
-        with open("DBcowrie.txt", "r+") as f:
+        with open("DBmypot.txt", "r+") as f:
             lines = f.readlines()
             if not lines or (len(lines) == 1 and lines[0].strip() == ''):
                 time.sleep(0.5)
