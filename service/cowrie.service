@@ -7,7 +7,6 @@ ExecStart=/home/cowrie/cowrie/bin/cowrie start
 ExecStop=/home/cowrie/cowrie/bin/cowrie stop
 User=cowrie
 Group=cowrie
-Restart=always
 
 [Install]
 WantedBy=multi-user.target

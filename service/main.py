@@ -16,7 +16,7 @@ subprocess.Popen(["python", f"/home/{username}/TestHoneypot/log/backup.py"])
 
 # รัน Getcowriedb.py ใน background
 print("Running Getcowriedb.py...")
-subprocess.Popen(["python", f"/home/{username}/TestHoneypot/log/Getcowriedb.py"])
+subprocess.Popen(["sudo", "python", f"/home/{username}/TestHoneypot/log/Getcowriedb.py"])
 
 # รัน Getdionaeadb.py ใน background
 print("Running Getdionaeadb.py...")
