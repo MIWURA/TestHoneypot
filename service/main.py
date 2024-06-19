@@ -20,7 +20,7 @@ subprocess.Popen(["python", f"/home/{username}/TestHoneypot/log/Getcowriedb.py"]
 
 # รัน Getdionaeadb.py ใน background
 print("Running Getdionaeadb.py...")
-subprocess.Popen(["python", f"/home/{username}/TestHoneypot/log/Getdionaeadb.py"])
+subprocess.Popen(["sudo", "python", f"/home/{username}/TestHoneypot/log/Getdionaeadb.py"])
 
 # รัน insertDB.py ใน background
 print("Running insertDB.py...")
