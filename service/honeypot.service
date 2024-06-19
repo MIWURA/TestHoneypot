@@ -4,6 +4,7 @@ After=default.target
 
 [Service]
 ExecStart=/usr/bin/python /home/os/TestHoneypot/service/main.py
+ExecStop=/bin/kill -s SIGTERM $MAINPID
 WorkingDirectory=/home/os/TestHoneypot
 StandardOutput=inherit
 StandardError=inherit
